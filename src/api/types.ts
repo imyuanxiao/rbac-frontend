@@ -4,6 +4,6 @@ export interface User {
     phone: string;
     email: string;
     avatar: string;
-    roles: number[];
-    permissions: number[]
+    roleIds: number[];
+    permissionIds: number[]
 }

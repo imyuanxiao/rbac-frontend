@@ -3,26 +3,35 @@ import { checkTokenExpiration } from '../utils/tokenUtil';
 import { Breadcrumb, Layout, theme } from 'antd';
 import {useLocation, useNavigate} from "react-router-dom";
 import MyMenu from "../compenents/MyMenu";
-import {useAppStore} from "../store/AppState";
+import {getIsAuthenticated, myPermissions} from "../api/api";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 
 function DefaultLayout() {
 
-    const { isAuthenticated } = useAppStore();
     const navigate = useNavigate();
     const location = useLocation();
 
     // 在组件挂载时，判断用户是否已登录
     useEffect(() => {
-        if (!isAuthenticated && location.pathname !== '/login') {
-            console.log(isAuthenticated);
+        if (!getIsAuthenticated() && location.pathname !== '/login') {
             // 保存当前路径到本地存储
             localStorage.setItem('savedPath', location.pathname);
             navigate('/login');
         }
-    }, [isAuthenticated, location.pathname, navigate]);
+    }, [location.pathname, navigate]);
+
+    useEffect(() => {
+        // 调用 myPermissions 方法发送请求到后端
+        myPermissions().then(permissions => {
+            // 处理获取到的权限数据
+            console.log("成功调用myPermission")
+        }).catch(error => {
+            // 处理请求失败的情况
+            console.log("myPermission调用出错")
+        });
+    }, [location]);
 
     useEffect(() => {
         checkTokenExpiration();

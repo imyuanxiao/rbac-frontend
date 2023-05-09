@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { message } from "antd";
-import { useAppStore } from '../store/AppState';
-const { setIsAuthenticated } = useAppStore.getState();
 
 // 请求拦截器
 axios.interceptors.request.use(
@@ -25,11 +23,7 @@ axios.interceptors.response.use(
     (response) => {
         if (response.data.code === 0) {
             // 设置登录权限为true
-            setIsAuthenticated(true);
-            // 统一处理成功响应，将token存到本地
-            // const token = response.data.data.token;
-            // console.log("响应头：" + token)
-            // localStorage.setItem('token', token);
+            localStorage.setItem('isAuthenticated', 'true');
             return response;
         } else {
             // 弹出错误信息
@@ -42,7 +36,7 @@ axios.interceptors.response.use(
     (error) => {
         if(error.response.data.data){
             message.error(error.response.data.data);
-            setIsAuthenticated(false);
+            localStorage.setItem('isAuthenticated', 'false');
             localStorage.removeItem('token');
         }
         // 抛出错误，以便后续的错误处理机制继续处理

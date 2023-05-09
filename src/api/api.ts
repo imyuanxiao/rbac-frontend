@@ -1,56 +1,108 @@
 import axios from './axios';
 import {User} from "./types";
-import { useAppStore } from '../store/AppState';
-const { setUser, getUser } = useAppStore.getState();
 
-// 保存响应信息到用户信息
-export const handleUserVO = (response: any) => {
-    const user: User = response.data.data;
-    setUser(user);
+
+
+// 从本地获取登录状态
+export const getIsAuthenticated = (): boolean => {
+    const result = localStorage.getItem('isAuthenticated');
+    if (!result) {
+        return false;
+    }
+    return JSON.parse(result);
 };
 
-// 保存响应信息到用户权限
+// 从本地获取用户权限
+export const getPermissionsFromLocalStorage = (): number[] | null => {
+    const user = getUserFromLocalStorage();
+    if (!user) {
+        return null;
+    }
+    return user.permissionIds;
+};
+
+// 从本地获取用户信息
+export const getUserFromLocalStorage = (): User | null => {
+    const userString = localStorage.getItem('user');
+    if (userString == null) {
+        console.log('无用户信息，请登录，清空本地存储数据');
+        // 清空本地存储的 token 和 user 信息
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // 跳转到登录页
+        console.log("此处应该跳转到登录页")
+        // 返回 null，表示没有用户信息
+        return null;
+    }
+    return JSON.parse(userString);
+};
+
+
+// 保存用户信息（含权限）到本地
+export const handleUserVO = (response: any) => {
+    const data = response.data.data; // 先将响应数据转换为一个普通的对象
+    const user: User = {
+        id: data.id,
+        username: data.username,
+        phone: data.phone,
+        email: data.email,
+        avatar: data.avatar,
+        roleIds: data.roleIds,
+        permissionIds: data.permissionIds
+    };
+    console.log(user);
+    localStorage.setItem('user', JSON.stringify(user));
+};
+
+// 保存新的权限信息到用户信息
 export const handlePermissions= (response: any) => {
         const permissionIds: number[] = response.data.data;
-        const user = getUser();
-        const updatedUser = { ...user, permissions: permissionIds };
-        setUser(updatedUser);
+        const user = getUserFromLocalStorage();
+        if (!user) {
+            return;
+        }
+        user.permissionIds = permissionIds;
+        localStorage.setItem('user', JSON.stringify(user));
 };
 
-// 发送login表单数据到后端，返回的是一个token
 export const login = async (formData: any) => {
-    const url = '/api/auth/login'; // 设置相对路径，由代理服务器转发请求
-    // 发送POST请求，传递formData作为请求体
+    const url = '/api/auth/login';
     try {
         const response = await axios.post(url, formData);
-        const token = response.data.data.token;
-        console.log("login收到响应头：" + token)
-        localStorage.setItem('token', token);
+        // 保存返回的token至本地
+        localStorage.setItem('token', response.data.data.token);
         handleUserVO(response);
         return true;
     } catch (error) {
-        //响应拦截器已处理错误，此处不需要处理
         console.log(error)
+        //响应拦截器已处理错误，此处不需要处理
     }
+};
+
+export const logout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('savedPath');
+    localStorage.removeItem('isAuthenticated');
+    // 重定向到登录页
+    window.location.href = '/login';
 };
 
 // 发送token到后端，获取用户最新的权限，需要和用户名一起发送，以免token被其他用户使用
 export const myPermissions = async () => {
     const url = '/api/auth/my-permission';
-    // 发送GET请求，传递formData作为请求体
     try {
-        const user = getUser();
+        const user = getUserFromLocalStorage();
         if (!user) {
-            // user为null时，抛出异常
-            return new Error("当前不存在登录用户!");
+            return;
         }
-        const response = await axios.post(url, user.username);
-        const token = response.data.data.token;
-        console.log("permission收到响应头：" + token)
-        localStorage.setItem('token', token);
-        handlePermissions(response);
-        return true;
+        await axios.post(url, {username: user.username}).then(
+            response=>{
+                handlePermissions(response);
+            }
+        );
     } catch (error) {
+        console.log(error)
         //响应拦截器已处理错误，此处不需要处理
     }
 };
@@ -60,19 +112,14 @@ export const updateToken = async () => {
     const url = '/api/auth/update-token';
     // 发送GET请求，传递formData作为请求体
     try {
-        const user = getUser();
-        console.log("当前用户名" + user.username)
-
+        const user = getUserFromLocalStorage();
         if (!user) {
-            // user为null时，抛出异常
-            return new Error("当前不存在登录用户!");
+            return;
         }
-        console.log("updateToken发送请求")
         await axios.post(url,  {username: user.username}).then(
             response =>{
                 // 收到token后更新本地token
-                const token = response.data.data;
-                localStorage.setItem('token', token);
+                localStorage.setItem('token', response.data.data);
             }
         )
     } catch (error) {
