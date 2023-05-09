@@ -1,5 +1,3 @@
-// routesConfig.ts
-
 import { RouteConfig } from 'react-router-config';
 import DefaultLayout from "../layout/DefaultLayout";
 import LoginPage from "../pages/LoginPage";

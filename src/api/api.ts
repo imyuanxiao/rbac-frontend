@@ -40,16 +40,10 @@ export const getUserFromLocalStorage = (): User | null => {
 
 // 保存用户信息（含权限）到本地
 export const handleUserVO = (response: any) => {
-    const data = response.data.data; // 先将响应数据转换为一个普通的对象
-    const user: User = {
-        id: data.id,
-        username: data.username,
-        phone: data.phone,
-        email: data.email,
-        avatar: data.avatar,
-        roleIds: data.roleIds,
-        permissionIds: data.permissionIds
-    };
+    // 先将响应数据转换为一个普通的对象
+    const { id, username, phone, email, avatar, roleIds, permissionIds } = response.data.data;
+    const user: User = { id, username, phone, email, avatar, roleIds, permissionIds };
+
     console.log(user);
     localStorage.setItem('user', JSON.stringify(user));
 };
