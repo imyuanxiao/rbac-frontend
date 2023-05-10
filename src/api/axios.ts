@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { message } from "antd";
-
+import LocalStoreUtil from "../utils/LocalStoreUtil";
 // 请求拦截器
 axios.interceptors.request.use(
     (config) => {
         // 在请求发送之前设置请求头部信息
-        const token = localStorage.getItem('token');
+        const token = LocalStoreUtil.getToken();
         if (token) {
             // console.log("请求头：" + token)
             config.headers.authorization = token;
@@ -23,7 +23,7 @@ axios.interceptors.response.use(
     (response) => {
         if (response.data.code === 0) {
             // 设置登录权限为true
-            localStorage.setItem('isAuthenticated', 'true');
+            LocalStoreUtil.putIsAuthenticated(true);
             return response;
         } else {
             // 弹出错误信息
@@ -35,9 +35,11 @@ axios.interceptors.response.use(
     // 如果响应码不是2xx，就会直接进入这里
     (error) => {
         if(error.response.data.data){
-            message.error(error.response.data.data);
-            localStorage.setItem('isAuthenticated', 'false');
-            localStorage.removeItem('token');
+            if(error.response.data.data.code === 1001){
+                LocalStoreUtil.removeLoginState();
+                message.error("登录已过期，请重新登录！");
+                window.location.href = '/';
+            }
         }
         // 抛出错误，以便后续的错误处理机制继续处理
         throw error;

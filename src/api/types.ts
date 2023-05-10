@@ -5,5 +5,15 @@ export interface User {
     email: string;
     avatar: string;
     roleIds: number[];
-    permissionIds: number[]
+}
+
+export interface UserVO {
+    id: string;
+    username: string;
+    phone: string;
+    email: string;
+    avatar: string;
+    roleIds: number[];
+    permissionIds: number[];
+    token: string;
 }

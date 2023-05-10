@@ -1,5 +1,6 @@
 import jwt_decode from "jwt-decode";
 import {updateToken} from "../api/api";
+import LocalStoreUtil from "./LocalStoreUtil";
 
 export function getTokenExpireTime(token: string): number | null {
     const decoded: any = jwt_decode(token);
@@ -15,7 +16,7 @@ export function checkTokenExpiration(): void {
         return;
     }
     console.log("检查token")
-    const token = localStorage.getItem('token');
+    const token = LocalStoreUtil.getToken();
     if (!token) {
         return;
     }
@@ -24,7 +25,8 @@ export function checkTokenExpiration(): void {
         return;
     }
     const now = Math.floor(Date.now() / 1000);
-    if (now >= expireTime - 40) {
+    // 过期前两分半进行检查和更新
+    if (now >= expireTime - 150) {
         console.log("token会过期")
         // Token will expire within 60 seconds, update it
         updateToken()

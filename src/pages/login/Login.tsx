@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import "../assets/css/style.css"
-import LoginCard from "../compenents/Login/LoginCard";
+import "../../assets/css/style.css"
+import LoginCard from "../../compenents/Login/LoginCard";
 
-function LoginPage() {
+function Login() {
     return (
         <Row justify="center" align="middle" className="login-page-container">
             <Col  xs={24} sm={12} md={8}>
@@ -15,4 +15,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default Login;
