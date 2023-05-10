@@ -1,10 +1,13 @@
-import { Menu } from 'antd';
 import {
     PieChartOutlined,
     DesktopOutlined,
-    UserOutlined,
     TeamOutlined,
-    FileOutlined,
+    SettingOutlined,
+    BarsOutlined,
+    UserOutlined,
+    ApartmentOutlined,
+    ClusterOutlined,
+    AuditOutlined
 } from '@ant-design/icons';
 import React from "react";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
@@ -33,11 +36,13 @@ export const menuItems = [
                 id: 1,
                 key: 'account',
                 label: <Link to="/user/account">账户管理</Link>,
+                icon: <UserOutlined />,
             },
             {
                 id: 5,
                 key: 'organization',
                 label:  <Link to="/user/organization">组织结构</Link>,
+                icon: <ApartmentOutlined />,
             },
         ],
     },
@@ -50,16 +55,19 @@ export const menuItems = [
                 id: 2,
                 key: 'role',
                 label: <Link to="/system/role">角色管理</Link>,
+                icon: <AuditOutlined />,
             },
             {
                 id: 3,
                 key: 'permission',
                 label: <Link to="/system/permission">权限管理</Link>,
+                icon: <ClusterOutlined />,
             },
             {
                 id: 7,
                 key: 'setting',
                 label: <Link to="/system/setting">系统设置</Link>,
+                icon: <SettingOutlined />,
             },
         ],
     },
@@ -67,7 +75,7 @@ export const menuItems = [
         id: 4,
         key: 'data',
         label: <Link to="/data">数据管理</Link>,
-        icon: <FileOutlined/>,
+        icon: <BarsOutlined />,
     },
     {
         id: 6,

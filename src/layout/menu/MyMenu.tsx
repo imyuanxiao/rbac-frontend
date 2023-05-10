@@ -1,7 +1,6 @@
 import React from 'react';
 import { Menu, } from "antd";
 import {getMenuNodes, MenuItem, menuItems} from "../../router/menuConfig";
-import {Link} from "react-router-dom";
 
 function MyMenu() {
 

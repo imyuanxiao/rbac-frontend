@@ -7,6 +7,7 @@ import Role from "../../pages/system/Role";
 import Permission from "../../pages/system/Permission";
 import Setting from "../../pages/system/Setting";
 import Profile from "../../pages/profile/Profile";
+import Data from "../../pages/data/Data";
 
 function MyMain() {
     return (
@@ -19,6 +20,7 @@ function MyMain() {
             <Route path="/system/permission" element={<Permission/>} />
             <Route path="/system/setting" element={<Setting/>} />
             <Route path="/profile" element={<Profile/>} />
+            <Route path="/data" element={<Data/>} />
         </Routes>
     );
 }
