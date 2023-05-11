@@ -7,6 +7,7 @@ import {useLocation} from "react-router-dom";
 import MyMain from "./main/MyMain";
 import MyHeader from "./header/MyHeader";
 import MyFooter from "./footer/MyFooter";
+import TabNavigation from "./main/TabNavigation";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -54,7 +55,9 @@ function Home() {
                     <MyHeader/>
                 </Header>
                 <Content style={{ margin: '0 16px' }}>
-                    <div style={{ margin: '16px 0' }}>标签导航</div>
+                    <div style={{ margin: '10px 0' }}>
+                        <TabNavigation/>
+                    </div>
                     <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
                         <MyMain/>
                     </div>

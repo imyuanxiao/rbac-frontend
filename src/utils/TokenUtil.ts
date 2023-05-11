@@ -36,4 +36,4 @@ export function checkTokenExpiration(): void {
     }
 }
 
-setInterval(checkTokenExpiration, 60 * 1000);
+setInterval(checkTokenExpiration, 120 * 1000);
