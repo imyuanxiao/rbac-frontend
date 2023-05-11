@@ -67,7 +67,7 @@ export default {
     },
 
     putPermissionIds(permissionIds: number[]) {
-        console.log("收到更新的权限：" + permissionIds);
+        // console.log("收到更新的权限：" + permissionIds);
         LocalStore.put(permissionIdsKey, permissionIds);
     },
 

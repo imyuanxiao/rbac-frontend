@@ -1,5 +1,6 @@
 import axios from './axios';
 import LocalStoreUtil from "../utils/LocalStoreUtil";
+import {message} from "antd";
 
 export const login = async (formData: any) => {
     const url = '/api/auth/login';
@@ -21,6 +22,20 @@ export const logout = () => {
     // 重定向到登录页
     window.location.href = '/login';
 };
+
+export const checkLoginStatus = () =>{
+    if (!LocalStoreUtil.getLoginState()) {
+        console.log("未登录，跳转至登录页面")
+        const path = window.location.pathname;
+        LocalStoreUtil.putSavedPath(path);
+        LocalStoreUtil.removeLoginState();
+        if(path !== "/login"){
+            window.location.href = "/login";
+        }
+        return false;
+    }
+    return true;
+}
 
 // 发送token到后端，获取用户最新的权限，需要和用户名一起发送，以免token被其他用户使用
 export const updatePermissions = async () => {

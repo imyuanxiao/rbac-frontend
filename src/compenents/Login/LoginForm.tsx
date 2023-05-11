@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { login } from "../../api/api";
 import { useNavigate } from 'react-router-dom';
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
 
 const LoginForm: React.FC = () => {
     const navigate = useNavigate();
@@ -9,7 +10,7 @@ const LoginForm: React.FC = () => {
     const onFinish = async (values: any) => {
         if(await login(values)){
             // 获取保存的路径，如果没有，则使用默认路径
-            const savedPath = localStorage.getItem('savedPath') || '/';
+            const savedPath = LocalStoreUtil.getSavedPath() || '/';
             // 使用导航功能导航到保存的路径
             navigate(savedPath);
         }

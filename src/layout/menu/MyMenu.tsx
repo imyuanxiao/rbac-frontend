@@ -4,7 +4,7 @@ import {getMenuNodes, MenuItem, menuItems} from "../../router/menuConfig";
 
 function MyMenu() {
 
-    const items : MenuItem[] = getMenuNodes(menuItems)
+    const items : MenuItem[] = getMenuNodes(menuItems);
 
     return (
         <div>

@@ -39,7 +39,7 @@ export const menuItems = [
                 icon: <UserOutlined />,
             },
             {
-                id: 5,
+                id: 2,
                 key: 'organization',
                 label:  <Link to="/user/organization">组织结构</Link>,
                 icon: <ApartmentOutlined />,
@@ -52,19 +52,19 @@ export const menuItems = [
         icon: <DesktopOutlined/>,
         children: [
             {
-                id: 2,
+                id: 3,
                 key: 'role',
                 label: <Link to="/system/role">角色管理</Link>,
                 icon: <AuditOutlined />,
             },
             {
-                id: 3,
+                id: 4,
                 key: 'permission',
                 label: <Link to="/system/permission">权限管理</Link>,
                 icon: <ClusterOutlined />,
             },
             {
-                id: 7,
+                id: 5,
                 key: 'setting',
                 label: <Link to="/system/setting">系统设置</Link>,
                 icon: <SettingOutlined />,
@@ -72,13 +72,13 @@ export const menuItems = [
         ],
     },
     {
-        id: 4,
+        id: 6,
         key: 'data',
         label: <Link to="/data">数据管理</Link>,
         icon: <BarsOutlined />,
     },
     {
-        id: 6,
+        id: 7,
         key: 'profile',
         label: <Link to="/profile">个人中心</Link>,
         icon: <UserOutlined/>,

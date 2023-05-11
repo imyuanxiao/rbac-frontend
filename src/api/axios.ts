@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { message } from "antd";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
+
 // 请求拦截器
 axios.interceptors.request.use(
     (config) => {
@@ -35,10 +36,10 @@ axios.interceptors.response.use(
     // 如果响应码不是2xx，就会直接进入这里
     (error) => {
         if(error.response.data.data){
-            if(error.response.data.data.code === 1001){
+            if(error.response.data.code === 1001){
                 LocalStoreUtil.removeLoginState();
-                message.error("登录已过期，请重新登录！");
-                window.location.href = '/';
+                message.error("Login has expired, please log in again!");
+                window.location.href = '/login';
             }
         }
         // 抛出错误，以便后续的错误处理机制继续处理
