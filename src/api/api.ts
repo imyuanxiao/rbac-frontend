@@ -1,6 +1,5 @@
 import axios from './axios';
 import LocalStoreUtil from "../utils/LocalStoreUtil";
-import {message} from "antd";
 
 export const login = async (formData: any) => {
     const url = '/api/auth/login';
@@ -76,4 +75,15 @@ export const updateToken = async () => {
             // 在操作失败后，将一个值传递给 reject 函数，表示操作失败
         });
     });
+};
+
+/*业务相关接口*/
+export const getUserPageVO = async (currentPage:number, pageSize:number) => {
+    const url = `/api/user/page/${currentPage}&${pageSize}`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
 };

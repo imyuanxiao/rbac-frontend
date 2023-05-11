@@ -1,95 +1,123 @@
-import React from 'react';
-import { Space, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import React, {useEffect, useState} from 'react';
+import {Table, Tag, Space, Pagination, message} from 'antd';
+import {ColumnsType} from "antd/es/table";
+import {getUserPageVO} from "../../api/api";
 
-
-interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
+// 定义数据模型
+interface UserPageVO {
+    id: string;
+    username: string;
+    roleIds: number[];
 }
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (_, { tags }) => (
-            <>
-                {tags.map((tag) => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
-            </Space>
-        ),
-    },
-];
+// 定义列表属性（列名、值的表现格式、操作按钮等）
+function generateColumns(): ColumnsType<UserPageVO> {
+    return [
+        {
+            title: 'index',
+            dataIndex: 'index',
+            key: 'index',
+            render: (_, record, index) => index + 1,
+        },
+        {
+            title: 'Username',
+            dataIndex: 'username',
+            key: 'username',
+            render: (text) => <a>{text}</a>,
+        },
+        {
+            title: 'Role',
+            dataIndex: 'roleIds',
+            key: 'roleIds',
+            render: (roleIds: number[]) => (
+                <>
+                    {roleIds.map((roleId) => {
+                        // 为不同角色赋予不同颜色的标签
+                        let color = (roleId === 1 || roleId === 2) ? 'geekblue' : roleId === 3 ? 'green' : 'default';
+                        return (
+                            <Tag color={color} key={roleId}>
+                                {roleId}
+                            </Tag>
+                        );
+                    })}
+                </>
+            ),
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <a>Edit</a>
+                    <a>Delete</a>
+                </Space>
+            ),
+        },
+    ];
+}
+// 获取列表
+const columns = generateColumns();
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
-
-// 管理用户信息，编辑用户基本信息和用户角色
 function Account() {
+
+    // 创建data，指定类型为UserPageVO[]
+    const [data, setData] = useState<UserPageVO[]>([]);
+
+    // 创建分页对象，指定属性
+    const [pagination, setPagination] = useState({
+        current: 1, // 当前页码
+        pageSize: 5, // 每页显示的记录数
+        total: 0, // 总记录数
+        showSizeChanger: true, // 是否显示每页显示数量的下拉框
+        pageSizeOptions: ['5', '10', '15'], // 每页显示数量的选项
+    });
+
+    // 通过请求接口获取数据，并更新分页对象
+    const fetchData = async (current: number, pageSize: number) => {
+        try {
+            const response = await getUserPageVO(current, pageSize);
+            // 更新列表数据
+            setData(response.records);
+            // 更新分页对象
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                current: current,
+                pageSize: pageSize,
+                total: response.total,
+            }));
+        }catch (e){
+            message.error("无法连接服务器.");
+        }
+    };
+
+    // 第二个参数为空的useEffect会在组件挂载的时候调用接口
+    useEffect(() => {
+        // 获取数据，设置页码初始页码和显示数
+        fetchData(1, 5);
+    }, []);
+
+    // 更改页码或每页显示数
+    const handleChange = async (current: number, pageSize: number, resetCurrent: boolean) => {
+        let newCurrentPage = resetCurrent ? 1 : current; // 如果是每页显示数变化，则重置当前页码为1
+        fetchData(newCurrentPage, pageSize);
+    };
+
+
     return (
-        <>
-            <Table columns={columns} dataSource={data} />
-        </>
+        <Table
+            columns={columns}
+            dataSource={data.map((item) => ({
+                ...item,
+                key: item.id,
+            }))}
+            pagination={{
+                ...pagination, // 使用状态中的 pagination 属性
+                position: ['bottomCenter'], // 设置分页组件在表格底部居中显示
+                onChange: (currentPage, pageSize) => handleChange(currentPage, pageSize, false),
+                onShowSizeChange: (currentPage, pageSize) => handleChange(currentPage, pageSize, true),
+                showTotal: (total, range) => `共 ${total} 条记录`, // 显示总数据数
+            }}
+        />
     );
 }
 
