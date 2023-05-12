@@ -17,49 +17,26 @@ function Home() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const [isLoaded, setIsLoaded] = useState(false); // 页面加载状态
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-
-    const checkLoginStatus = () =>{
+    
+    // 组件渲染完成后，重定向到登录页面
+    useEffect(() => {
         if (!LocalStoreUtil.getLoginState()) {
-            message.error("未登录")
-            const path = window.location.pathname;
+            message.error('未登录');
+            const path = location.pathname;
             LocalStoreUtil.putSavedPath(path);
             LocalStoreUtil.removeLoginState();
-            if(path !== "/login"){
-                navigate("/login");
-            }
-            return;
+            navigate('/login');
         }
-        return true;
+    }, []);
+
+    // 如果未登录，不需要渲染该组件
+    if (!LocalStoreUtil.getLoginState()) {
+        return <div> Redirecting to login page </div>;
     }
-
-    useEffect(() => {
-        const isLoggedIn = checkLoginStatus();
-        if (isLoggedIn) {
-            setIsLoaded(true); // 标记页面已加载完成
-        }
-        if (isLoaded) {
-            // 调用 myPermissions 方法发送请求到后端
-            updatePermissions()
-                .then((permissions) => {
-                    // 处理获取到的权限数据
-                    console.log('成功调用updatePermissions');
-                })
-                .catch((error) => {
-                    // 处理请求失败的情况
-                    console.log('updatePermissions调用出错');
-                });
-        }
-    }, [isLoaded, location]);
-
-    if (!isLoaded) {
-        return null; // 页面未加载完成，不显示内容
-    }
-
 
     return (
         <Layout style={{ minHeight: '100vh' }}>

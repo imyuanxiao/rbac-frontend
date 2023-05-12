@@ -19,6 +19,7 @@ function MyHeader() {
     const handleLogoutClick = () => {
         LocalStoreUtil.removeLoginState();
         message.info("已退出登录");
+        navigate('/login');
     };
 
     const items: MenuItem[] = [

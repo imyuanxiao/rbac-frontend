@@ -22,7 +22,7 @@ function MyMenu() {
         // 根据当前路由路径判断哪个SubMenu该展开
         const openKey:string[] =  findTopLevelParentKeys(items, currentPath);
         // 如果没找到，说明没权限或者路径不存在
-        if(openKey.length === 0 && currentPath !== '/index'){
+        if(openKey.length === 0 && currentPath !== '/index' && currentPath !== '/'){
             navigate("/index");
             message.error("请求路径不存在！")
         }
