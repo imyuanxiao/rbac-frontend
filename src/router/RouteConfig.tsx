@@ -12,23 +12,33 @@ import {
 import React from "react";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
 import {Link} from "react-router-dom";
+import Index from "../pages/index/Index";
+import Profile from "../pages/profile/Profile";
+import Data from "../pages/data/Data";
+import Setting from "../pages/system/Setting";
+import Permission from "../pages/system/Permission";
+import Role from "../pages/system/Role";
+import Organization from "../pages/user/Organization";
+import Account from "../pages/user/Account";
 
-export interface MenuItem{
+export interface RouteItem {
     id?: number,
     key: React.Key,
     label: React.ReactNode,
     icon?: React.ReactElement,
-    children? : MenuItem[];
+    element?: React.ReactNode,
+    children? : RouteItem[];
 }
 
 /**
  * 所有菜单配置
  */
-export const menuItems = [
+export const routeItems = [
     {
         key: '/index',
         label: <Link to="/index">首页</Link>,
         icon: <PieChartOutlined/>,
+        element: <Index/>
     },
     {
         key: '/user',
@@ -40,12 +50,14 @@ export const menuItems = [
                 key: '/user/account',
                 label: <Link to="/user/account">账户管理</Link>,
                 icon: <UserOutlined />,
+                element: <Account/>,
             },
             {
                 id: 2,
                 key: '/user/organization',
                 label:  <Link to="/user/organization">组织结构</Link>,
                 icon: <ApartmentOutlined />,
+                element:  <Organization/>,
             },
         ],
     },
@@ -59,18 +71,21 @@ export const menuItems = [
                 key: '/system/role',
                 label: <Link to="/system/role">角色管理</Link>,
                 icon: <AuditOutlined />,
+                element: <Role/>,
             },
             {
                 id: 4,
                 key: '/system/permission',
                 label: <Link to="/system/permission">权限管理</Link>,
                 icon: <ClusterOutlined />,
+                element: <Permission/>,
             },
             {
                 id: 5,
                 key: '/system/setting',
                 label: <Link to="/system/setting">系统设置</Link>,
                 icon: <SettingOutlined />,
+                element: <Setting/>
             },
         ],
     },
@@ -79,12 +94,15 @@ export const menuItems = [
         key: '/data',
         label: <Link to="/data">数据管理</Link>,
         icon: <BarsOutlined />,
+        element: <Data/>,
     },
     {
         id: 7,
         key: '/profile',
         label: <Link to="/profile">个人中心</Link>,
         icon: <UserOutlined/>,
+        element: <Profile/>,
+
     },
 ];
 
@@ -92,9 +110,9 @@ export const menuItems = [
  * 根据用户权限，导出仅在权限范围内的菜单
  * @param items
  */
-export function getMenuNodes(items: MenuItem[]): MenuItem[] {
+export function getMenuNodes(items: RouteItem[]): RouteItem[] {
     // @ts-ignore
-    return items.map((item: MenuItem) => {
+    return items.map((item: RouteItem) => {
         //有子路由
         if (item.children) {
             const subs = getMenuNodes(item.children).filter(Boolean);
@@ -105,7 +123,6 @@ export function getMenuNodes(items: MenuItem[]): MenuItem[] {
                 };
             }
         }
-
         // @ts-ignore
         if (LocalStoreUtil.getMyPermissionIds().includes(item.id) || item.key === '/index'){
             return item;
@@ -119,9 +136,9 @@ export function getMenuNodes(items: MenuItem[]): MenuItem[] {
  * @param menuItems
  * @param route
  */
-export function findTopLevelParentKeys(menuItems: MenuItem[], route: string): string[] {
+export function findTopLevelParentKeys(menuItems: RouteItem[], route: string): string[] {
     const parentKeys: string[] = [];
-    const traverseMenuItems = (items: MenuItem[]) => {
+    const traverseMenuItems = (items: RouteItem[]) => {
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             if(!item){

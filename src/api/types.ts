@@ -17,3 +17,20 @@ export interface UserVO {
     permissionIds: number[];
     token: string;
 }
+
+export interface Role {
+    id: number,
+    name: string
+}
+
+export interface Permission {
+    id: number,
+    name: string,
+    url: string,
+    type: number
+}
+
+export interface Company{
+    id: number,
+    name: string
+}

@@ -11,6 +11,8 @@ const permissionIdsKey = 'permissionIdsKey';
 const isAuthenticated = 'isAuthenticated';
 const savedPath = 'savedPath';
 
+const filteredRoutesKey = 'filteredRoutesKey';
+
 export default {
 
     /**
@@ -59,6 +61,7 @@ export default {
         LocalStore.remove(userInfoKey);
         LocalStore.remove(permissionIdsKey);
         LocalStore.remove(isAuthenticated);
+        LocalStore.remove(savedPath);
     },
 
     /**
@@ -91,7 +94,9 @@ export default {
         return LocalStore.get(savedPath);
     },
 
-
+    removeSavedPath(){
+        LocalStore.remove(savedPath);
+    },
 
     putSavedPath(path: string) {
         LocalStore.put(savedPath, path);
@@ -100,5 +105,13 @@ export default {
     putIsAuthenticated(value: boolean) {
         LocalStore.put(isAuthenticated, value);
     },
+
+    getFilteredRoutes() {
+        return LocalStore.get(filteredRoutesKey);
+    },
+
+    // putFilteredRoutes(routeItems: RouteItem[]) {
+    //     LocalStore.put(filteredRoutesKey, routeItems);
+    // },
 
 }

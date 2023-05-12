@@ -9,7 +9,7 @@ export const getAllRoles = async () => {
         LocalStoreUtil.putAllRoles(response.data.data);
     }catch (error) {
         // @ts-ignore
-        message.error(error.message);
+        message.error(error.data);
     }
 };
 
@@ -20,7 +20,7 @@ export const getAllPermissions = async () => {
         LocalStoreUtil.putAllPermissions(response.data.data);
     }catch (error) {
         // @ts-ignore
-        message.error(error.message);
+        message.error(error.data);
     }
 };
 
@@ -69,7 +69,8 @@ export const getUserPageVO = async (currentPage:number, pageSize:number) => {
         const response = await axios.get(url);
         return response.data.data;
     } catch (error) {
-        console.log(error);
+        // @ts-ignore
+        message.error(error.data)
     }
 };
 

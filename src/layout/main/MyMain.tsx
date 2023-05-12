@@ -1,26 +1,40 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
-import Index from "../../pages/index/Index";
-import Account from "../../pages/user/Account";
-import Organization from "../../pages/user/Organization";
-import Role from "../../pages/system/Role";
-import Permission from "../../pages/system/Permission";
-import Setting from "../../pages/system/Setting";
-import Profile from "../../pages/profile/Profile";
-import Data from "../../pages/data/Data";
+import {RouteItem, routeItems} from "../../router/RouteConfig";
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
 
 function MyMain() {
+
+    /**
+     * 根据用户权限，导出仅在权限范围内的路由页面
+     * @param routeItems
+     */
+    // @ts-ignore
+    const getPageNodes = (routeItems: RouteItem[]) => (
+        // eslint-disable-next-line
+        routeItems.map(item => {
+            // 有子路由
+            if (item.children) {
+                return (
+                    getPageNodes(item.children)
+                )
+            }
+
+            if (item.element) {
+                // 无子路由
+                return (
+                    // 判断权限
+                    (LocalStoreUtil.getMyPermissionIds().includes(item.id) || item.key === '/index') &&
+                    <Route path={item.key as string} element={item.element} key={item.key}/>
+                );
+            }
+
+        })
+    )
+
     return (
         <Routes>
-            <Route path="/" element={<Index/>}/>
-            <Route path="/index" element={<Index/>}/>
-            <Route path="/user/account" element={<Account/>} />
-            <Route path="/user/organization" element={<Organization/>} />
-            <Route path="/system/role" element={<Role/>} />
-            <Route path="/system/permission" element={<Permission/>} />
-            <Route path="/system/setting" element={<Setting/>} />
-            <Route path="/profile" element={<Profile/>} />
-            <Route path="/data" element={<Data/>} />
+            {getPageNodes(routeItems)}
         </Routes>
     );
 }

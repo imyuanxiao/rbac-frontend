@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Menu, message} from "antd";
-import {findTopLevelParentKeys, getMenuNodes, MenuItem, menuItems} from "../../router/menuConfig";
+import {findTopLevelParentKeys, getMenuNodes, RouteItem, routeItems} from "../../router/RouteConfig";
 import { useLocation, useNavigate } from 'react-router-dom';
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
 
 function MyMenu() {
 
@@ -10,21 +11,27 @@ function MyMenu() {
     const navigate = useNavigate();
     let currentPath = location.pathname;
 
-    // 根据用户权限获取所在菜单
-    const items : MenuItem[] = getMenuNodes(menuItems);
-
     // 当前展开的SubMenu
     const [openSub, setOpenSub] = useState<string[]>([]);
     const handlerSubChange = (key:any) => {
         setOpenSub(key);
     }
+
+    // 根据用户权限获取所在菜单
+    const items : RouteItem[] = getMenuNodes(routeItems);
+
     useEffect(() => {
         // 根据当前路由路径判断哪个SubMenu该展开
         const openKey:string[] =  findTopLevelParentKeys(items, currentPath);
         // 如果没找到，说明没权限或者路径不存在
-        if(openKey.length === 0 && currentPath !== '/index' && currentPath !== '/'){
-            navigate("/index");
-            message.error("请求路径不存在！")
+        if(openKey.length === 0 && currentPath !== '/index'){
+            if(currentPath == '/'){
+                navigate("/index");
+            }else{
+                LocalStoreUtil.removeSavedPath();
+                navigate("/404");
+                message.error("请求路径不存在！")
+            }
         }
         setOpenSub(openKey);
     }, []);

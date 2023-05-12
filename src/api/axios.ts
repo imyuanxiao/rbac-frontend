@@ -7,7 +7,6 @@ axios.interceptors.request.use(
         // 在请求发送之前设置请求头部信息
         const token = LocalStoreUtil.getToken();
         if (token) {
-            // console.log("请求头：" + token)
             config.headers.authorization = token;
         }
         return config;

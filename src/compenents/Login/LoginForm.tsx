@@ -3,7 +3,6 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { login } from "../../api/api";
 import { useNavigate } from 'react-router-dom';
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
-
 const LoginForm: React.FC = () => {
     const navigate = useNavigate();
 

@@ -5,22 +5,6 @@ import {getAllPermissions, getAllRoles} from "../../api/api";
  * 1. 首页数据展示、通知
  * 2. 从数据库加载所有角色信息、权限信息
  */
-interface Role {
-    id: number,
-    name: string
-}
-
-interface Permission {
-    id: number,
-    name: string,
-    url: string,
-    type: number
-}
-
-interface Company{
-    id: number,
-    name: string
-}
 
 function Index() {
 

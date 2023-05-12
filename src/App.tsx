@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Login from "./pages/login/Login";
 import Home from "./layout/Home";
 import {checkTokenExpiration} from "./utils/TokenUtil";
+import NotFound from "./pages/notFound/NotFound";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
               <Routes>
                   <Route path="/*" element={<Home />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/404" element={<NotFound />} />
               </Routes>
           </Router>
       </ConfigProvider>

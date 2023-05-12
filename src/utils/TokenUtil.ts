@@ -32,7 +32,7 @@ export function checkTokenExpiration(): void {
         updateToken()
             .catch((error) => {
                 console.error('Failed to update token:', error);
-            });
+        });
     }
 }
 

@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Tag, Space, Pagination, message} from 'antd';
+import {Table, Tag, Space} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import {getUserPageVO} from "../../api/api";
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
+import {Role} from "../../api/types";
 
 /**
  * 从后端接受的用户数据
@@ -10,6 +12,13 @@ interface UserPageVO {
     id: string;
     username: string;
     roleIds: number[];
+}
+
+
+function getRoleName(id: number): string {
+    const roles: Role[] = LocalStoreUtil.getAllRoles();
+    const role = roles.find((role) => role.id === id);
+    return role ? role.name : '';
 }
 
 // 定义列表属性（列名、值的表现格式、操作按钮等）
@@ -35,10 +44,11 @@ function generateColumns(): ColumnsType<UserPageVO> {
                 <>
                     {roleIds.map((roleId) => {
                         // 为不同角色赋予不同颜色的标签
-                        let color = (roleId === 1 || roleId === 2) ? 'geekblue' : roleId === 3 ? 'green' : 'default';
+                        let color = (roleId === 1 || roleId === 2)
+                            ? 'geekblue' : roleId === 3 ? 'green' : 'default';
                         return (
                             <Tag color={color} key={roleId}>
-                                {roleId}
+                                {getRoleName(roleId)}
                             </Tag>
                         );
                     })}
@@ -88,7 +98,7 @@ function Account() {
                 total: response.total,
             }));
         }catch (e){
-            message.error("无法连接服务器.");
+
         }
     };
 

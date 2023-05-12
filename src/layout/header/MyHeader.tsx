@@ -5,7 +5,7 @@ import MyBreadcrumb from "./MyBreadcrumb";
 import {
     ExportOutlined
 } from '@ant-design/icons';
-import {MenuItem} from "../../router/menuConfig";
+import {RouteItem} from "../../router/RouteConfig";
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
 
 function MyHeader() {
@@ -22,7 +22,7 @@ function MyHeader() {
         navigate('/login');
     };
 
-    const items: MenuItem[] = [
+    const items: RouteItem[] = [
         {
             key: 'profile',
             label: (
