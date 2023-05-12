@@ -7,6 +7,8 @@ import MyHeader from "./header/MyHeader";
 import MyFooter from "./footer/MyFooter";
 import TabNavigation from "./main/TabNavigation";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
+import {updatePermissions} from "../api/api";
+import {getFilteredPath, routeItems} from "../router/RouteConfig";
 const { Header, Content, Footer, Sider } = Layout;
 
 function Home() {
@@ -18,7 +20,6 @@ function Home() {
         token: { colorBgContainer },
     } = theme.useToken();
 
-    // 组件渲染完成后
     useEffect(() => {
         // 如果未登录，重定向到登录页面
         if (!LocalStoreUtil.getLoginState()) {
@@ -26,8 +27,22 @@ function Home() {
             LocalStoreUtil.putSavedPath(location.pathname);
             LocalStoreUtil.removeLoginState();
             navigate('/login');
+        }else{
+            updatePermissions();
+            let currentPath = location.pathname;
+            // 判断当前路由是否正确，如果不正确，重定向至404
+            if(currentPath == '/') {
+                navigate("/index");
+                return;
+            }
+            if(!getFilteredPath(routeItems).includes(currentPath)){
+                LocalStoreUtil.removeSavedPath();
+                navigate("/404");
+                message.error("请求路径不存在！")
+                return;
+            }
         }
-    }, []);
+    }, [location.pathname])
 
     // 如果未登录，不需要渲染该组件
     if (!LocalStoreUtil.getLoginState()) {

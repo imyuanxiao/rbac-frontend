@@ -61,7 +61,6 @@ export default {
         LocalStore.remove(userInfoKey);
         LocalStore.remove(permissionIdsKey);
         LocalStore.remove(isAuthenticated);
-        LocalStore.remove(savedPath);
     },
 
     /**

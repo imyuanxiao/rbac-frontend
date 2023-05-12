@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Tag, Space} from 'antd';
+import {Table, Tag, Space, Button} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import {getUserPageVO} from "../../api/api";
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
 import {Role} from "../../api/types";
-
+import {
+    FormOutlined,
+    DeleteOutlined
+} from '@ant-design/icons';
+import Auth from "../../compenents/Auth";
 /**
  * 从后端接受的用户数据
  */
@@ -34,7 +38,7 @@ function generateColumns(): ColumnsType<UserPageVO> {
             title: 'Username',
             dataIndex: 'username',
             key: 'username',
-            render: (text) => <a>{text}</a>,
+            render: (text) => <>{text}</>,
         },
         {
             title: 'Role',
@@ -58,10 +62,29 @@ function generateColumns(): ColumnsType<UserPageVO> {
         {
             title: 'Action',
             key: 'action',
-            render: (_, record) => (
+            render: (_, user) => (
                 <Space size="middle">
-                    <a>Edit</a>
-                    <a>Delete</a>
+                    <Auth permissionId={1003}>
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<FormOutlined />}
+                            onClick={ e =>{
+                                console.log("edit")
+                            }}
+                        />
+                    </Auth>
+                    <Auth permissionId={1002}>
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<DeleteOutlined />}
+                            danger
+                            onClick={ e =>{
+                                console.log("delete")
+                            }}
+                        />
+                    </Auth>
                 </Space>
             ),
         },

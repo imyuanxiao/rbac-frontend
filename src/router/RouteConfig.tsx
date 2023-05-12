@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import React from "react";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
-import {Link} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
 import Index from "../pages/index/Index";
 import Profile from "../pages/profile/Profile";
 import Data from "../pages/data/Data";
@@ -110,12 +110,12 @@ export const routeItems = [
  * 根据用户权限，导出仅在权限范围内的菜单
  * @param items
  */
-export function getMenuNodes(items: RouteItem[]): RouteItem[] {
+export function getFilteredMenu(items: RouteItem[]): RouteItem[] {
     // @ts-ignore
     return items.map((item: RouteItem) => {
         //有子路由
         if (item.children) {
-            const subs = getMenuNodes(item.children).filter(Boolean);
+            const subs = getFilteredMenu(item.children).filter(Boolean);
             if (subs.length > 0) {
                 return {
                     ...item,
@@ -159,3 +159,52 @@ export function findTopLevelParentKeys(menuItems: RouteItem[], route: string): s
     traverseMenuItems(menuItems);
     return parentKeys;
 }
+
+
+/**
+ * 根据用户权限，导出仅在权限范围内的路由页面
+ * @param routeItems
+ */
+    // @ts-ignore
+export const getFilteredPage = (routeItems: RouteItem[]) => (
+    // eslint-disable-next-line
+    routeItems.map(item => {
+        // 有子路由
+        if (item.children) {
+            return (
+                getFilteredPage(item.children)
+            )
+        }
+        if (item.element) {
+            // 无子路由
+            return (
+                // 判断权限
+                (LocalStoreUtil.getMyPermissionIds().includes(item.id) || item.key === '/index') &&
+                <Route path={item.key as string} element={item.element} key={item.key}/>
+            );
+        }
+
+    })
+)
+
+
+/**
+ * 根据用户权限，导出仅在权限范围内的路由
+ * @param routeItems
+ */
+export const getFilteredPath = (routeItems: RouteItem[]): string[] => {
+    const filteredPaths: string[] = [];
+
+    routeItems.forEach((item: RouteItem) => {
+        if (item.children) {
+            const childPaths = getFilteredPath(item.children);
+            filteredPaths.push(...childPaths);
+        }
+
+        if (item.element && item.key) {
+            filteredPaths.push(item.key as string);
+        }
+    });
+
+    return filteredPaths;
+};

@@ -38,6 +38,7 @@ export const login = async (formData: any) => {
 
 // 发送token到后端，获取用户最新的权限，需要和用户名一起发送，以免token被其他用户使用
 export const updatePermissions = async () => {
+    console.log("updatePermissions")
     const url = '/api/auth/my-permission';
     try {
         const response = await axios.get(url);
