@@ -1,12 +1,12 @@
 import React from 'react';
-import {Avatar, Col, Dropdown, Row, Space} from 'antd';
+import {Avatar, Dropdown, message, Space} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import MyBreadcrumb from "./MyBreadcrumb";
 import {
     ExportOutlined
 } from '@ant-design/icons';
 import {MenuItem} from "../../router/menuConfig";
-import {logout} from "../../api/api";
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
 
 function MyHeader() {
 
@@ -17,7 +17,8 @@ function MyHeader() {
     };
 
     const handleLogoutClick = () => {
-        logout()
+        LocalStoreUtil.removeLoginState();
+        message.info("已退出登录");
     };
 
     const items: MenuItem[] = [

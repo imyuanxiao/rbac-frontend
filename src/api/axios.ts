@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { message } from "antd";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
 
 // 请求拦截器
@@ -27,22 +26,16 @@ axios.interceptors.response.use(
             LocalStoreUtil.putIsAuthenticated(true);
             return response;
         } else {
-            // 弹出错误信息
-            message.error(response.data.data);
             // 统一处理失败响应
             return Promise.reject(response.data);
         }
     },
     // 如果响应码不是2xx，就会直接进入这里
     (error) => {
-        if(error.response.data.data){
-            if(error.response.data.code === 1001){
-                LocalStoreUtil.removeLoginState();
-                message.error("Login has expired, please log in again!");
-                window.location.href = '/login';
-            }
+        if(error.response.data.data && error.response.data.data.code === 1001){
+            LocalStoreUtil.removeLoginState();
+            throw new Error("Login has expired, please log in again!");
         }
-        // 抛出错误，以便后续的错误处理机制继续处理
         throw error;
     }
 );

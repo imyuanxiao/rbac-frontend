@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import { Layout, theme } from 'antd';
+import {Layout, message, theme} from 'antd';
 
 import MyMenu from "./menu/MyMenu";
-import {checkLoginStatus, updatePermissions} from "../api/api";
-import {useLocation} from "react-router-dom";
+import {updatePermissions} from "../api/api";
+import {useLocation, useNavigate} from "react-router-dom";
 import MyMain from "./main/MyMain";
 import MyHeader from "./header/MyHeader";
 import MyFooter from "./footer/MyFooter";
 import TabNavigation from "./main/TabNavigation";
+import LocalStoreUtil from "../utils/LocalStoreUtil";
 
 const { Header, Content, Footer, Sider } = Layout;
 
+
 function Home() {
 
+    const navigate = useNavigate();
     const location = useLocation();
     const [isLoaded, setIsLoaded] = useState(false); // 页面加载状态
     const [collapsed, setCollapsed] = useState(false);
@@ -20,12 +23,25 @@ function Home() {
         token: { colorBgContainer },
     } = theme.useToken();
 
+    const checkLoginStatus = () =>{
+        if (!LocalStoreUtil.getLoginState()) {
+            message.error("未登录")
+            const path = window.location.pathname;
+            LocalStoreUtil.putSavedPath(path);
+            LocalStoreUtil.removeLoginState();
+            if(path !== "/login"){
+                navigate("/login");
+            }
+            return;
+        }
+        return true;
+    }
+
     useEffect(() => {
         const isLoggedIn = checkLoginStatus();
         if (isLoggedIn) {
             setIsLoaded(true); // 标记页面已加载完成
         }
-
         if (isLoaded) {
             // 调用 myPermissions 方法发送请求到后端
             updatePermissions()
