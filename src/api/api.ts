@@ -2,6 +2,28 @@ import axios from './axios';
 import LocalStoreUtil from "../utils/LocalStoreUtil";
 import {message} from "antd";
 
+export const getAllRoles = async () => {
+    const url = '/api/role/list';
+    try {
+        const response = await axios.get(url);
+        LocalStoreUtil.putAllRoles(response.data.data);
+    }catch (error) {
+        // @ts-ignore
+        message.error(error.message);
+    }
+};
+
+export const getAllPermissions = async () => {
+    const url = '/api/permission/list';
+    try {
+        const response = await axios.get(url);
+        LocalStoreUtil.putAllPermissions(response.data.data);
+    }catch (error) {
+        // @ts-ignore
+        message.error(error.message);
+    }
+};
+
 export const login = async (formData: any) => {
     const url = '/api/auth/login';
     try {
@@ -20,7 +42,7 @@ export const updatePermissions = async () => {
     try {
         const response = await axios.get(url);
         const permissionIds: number[] = response.data.data;
-        LocalStoreUtil.putPermissionIds(permissionIds);
+        LocalStoreUtil.putMyPermissionIds(permissionIds);
         return true;
     }catch (error) {
         // @ts-ignore
@@ -50,3 +72,4 @@ export const getUserPageVO = async (currentPage:number, pageSize:number) => {
         console.log(error);
     }
 };
+

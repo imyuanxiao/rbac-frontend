@@ -3,7 +3,9 @@ import {Table, Tag, Space, Pagination, message} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import {getUserPageVO} from "../../api/api";
 
-// 定义数据模型
+/**
+ * 从后端接受的用户数据
+ */
 interface UserPageVO {
     id: string;
     username: string;
@@ -101,7 +103,6 @@ function Account() {
         let newCurrentPage = resetCurrent ? 1 : current; // 如果是每页显示数变化，则重置当前页码为1
         fetchData(newCurrentPage, pageSize);
     };
-
 
     return (
         <Table

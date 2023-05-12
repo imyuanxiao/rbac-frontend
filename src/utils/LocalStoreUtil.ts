@@ -1,6 +1,10 @@
 import LocalStore from "./LocalStore";
 import {User, UserVO} from "../api/types";
 
+
+const allRolesKey = 'allRolesKey';
+const allPermissionsKey = 'allPermissionsKey';
+
 const tokenKey = 'jwt-token';
 const userInfoKey = 'userInfo';
 const permissionIdsKey = 'permissionIdsKey';
@@ -8,6 +12,23 @@ const isAuthenticated = 'isAuthenticated';
 const savedPath = 'savedPath';
 
 export default {
+
+    /**
+     * 获取、保存当前存储的所有角色信息权限信息
+     */
+    getAllRoles(){
+        return LocalStore.get(allRolesKey);
+    },
+    putAllRoles(roles: number[]) {
+        LocalStore.put(allRolesKey, roles);
+    },
+    getAllPermissions(){
+        return LocalStore.get(allPermissionsKey);
+    },
+    putAllPermissions(permissions: number[]) {
+        LocalStore.put(allPermissionsKey, permissions);
+    },
+
     /**
      * 保存当前登录用户信息
      * @param userVo 后端传来的UserVO对象，包含用户信息、权限信息及token
@@ -29,6 +50,7 @@ export default {
     getLoginState() {
         return !!LocalStore.get(tokenKey) && LocalStore.get(isAuthenticated);
     },
+
     /**
      * 移除登录状态
      */
@@ -47,33 +69,29 @@ export default {
         return LocalStore.get(tokenKey);
     },
 
+    getUsername() {
+        return LocalStore.get(userInfoKey).username;
+    },
+
+
     putToken(token: string) {
         // console.log("收到更新的token：" + token);
         LocalStore.put(tokenKey, token);
     },
 
-    getUsername() {
-        const user: User = LocalStore.get(userInfoKey);
-        // console.log("请求获取用户名：" + user.username);
-        return user.username;
-    },
-
-    putUserInfo(user: User){
-        LocalStore.put(userInfoKey, user);
-    },
-
-    getPermissionIds() {
+    getMyPermissionIds() {
         return LocalStore.get(permissionIdsKey);
     },
 
-    putPermissionIds(permissionIds: number[]) {
-        // console.log("收到更新的权限：" + permissionIds);
+    putMyPermissionIds(permissionIds: number[]) {
         LocalStore.put(permissionIdsKey, permissionIds);
     },
 
     getSavedPath() {
         return LocalStore.get(savedPath);
     },
+
+
 
     putSavedPath(path: string) {
         LocalStore.put(savedPath, path);

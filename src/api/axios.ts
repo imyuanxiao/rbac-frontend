@@ -32,7 +32,8 @@ axios.interceptors.response.use(
     },
     // 如果响应码不是2xx，就会直接进入这里
     (error) => {
-        if(error.response.data.data && error.response.data.data.code === 1001){
+        // 如果返回自定义code为1001，说明token无效或已过期
+        if(error.response.data && error.response.data.code === 1001){
             LocalStoreUtil.removeLoginState();
             throw new Error("Login has expired, please log in again!");
         }

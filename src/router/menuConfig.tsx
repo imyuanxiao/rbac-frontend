@@ -21,51 +21,54 @@ export interface MenuItem{
     children? : MenuItem[];
 }
 
+/**
+ * 所有菜单配置
+ */
 export const menuItems = [
     {
-        key: 'dashboard',
-        label: <Link to="/">首页</Link>,
+        key: '/index',
+        label: <Link to="/index">首页</Link>,
         icon: <PieChartOutlined/>,
     },
     {
-        key: 'user',
+        key: '/user',
         label: '用户管理',
         icon: <TeamOutlined/>,
         children: [
             {
                 id: 1,
-                key: 'account',
+                key: '/user/account',
                 label: <Link to="/user/account">账户管理</Link>,
                 icon: <UserOutlined />,
             },
             {
                 id: 2,
-                key: 'organization',
+                key: '/user/organization',
                 label:  <Link to="/user/organization">组织结构</Link>,
                 icon: <ApartmentOutlined />,
             },
         ],
     },
     {
-        key: 'system',
+        key: '/system',
         label: '系统管理',
         icon: <DesktopOutlined/>,
         children: [
             {
                 id: 3,
-                key: 'role',
+                key: '/system/role',
                 label: <Link to="/system/role">角色管理</Link>,
                 icon: <AuditOutlined />,
             },
             {
                 id: 4,
-                key: 'permission',
+                key: '/system/permission',
                 label: <Link to="/system/permission">权限管理</Link>,
                 icon: <ClusterOutlined />,
             },
             {
                 id: 5,
-                key: 'setting',
+                key: '/system/setting',
                 label: <Link to="/system/setting">系统设置</Link>,
                 icon: <SettingOutlined />,
             },
@@ -73,18 +76,22 @@ export const menuItems = [
     },
     {
         id: 6,
-        key: 'data',
+        key: '/data',
         label: <Link to="/data">数据管理</Link>,
         icon: <BarsOutlined />,
     },
     {
         id: 7,
-        key: 'profile',
+        key: '/profile',
         label: <Link to="/profile">个人中心</Link>,
         icon: <UserOutlined/>,
     },
 ];
 
+/**
+ * 根据用户权限，导出仅在权限范围内的菜单
+ * @param items
+ */
 export function getMenuNodes(items: MenuItem[]): MenuItem[] {
     // @ts-ignore
     return items.map((item: MenuItem) => {
@@ -100,8 +107,38 @@ export function getMenuNodes(items: MenuItem[]): MenuItem[] {
         }
 
         // @ts-ignore
-        if (LocalStoreUtil.getPermissionIds().includes(item.id)|| item.path === '/'){
+        if (LocalStoreUtil.getMyPermissionIds().includes(item.id) || item.key === '/index'){
             return item;
         }
     });
+}
+
+/**
+ * 根据当前路由，找到应展开的父菜单的路由
+ *
+ * @param menuItems
+ * @param route
+ */
+export function findTopLevelParentKeys(menuItems: MenuItem[], route: string): string[] {
+    const parentKeys: string[] = [];
+    const traverseMenuItems = (items: MenuItem[]) => {
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            if(!item){
+                continue;
+            }
+            if (item.key === route) {
+                return;
+            }
+            if (item.children) {
+                traverseMenuItems(item.children);
+                if (item.children.some(child => child.key === route)) {
+                    parentKeys.push(item.key as string);
+                }
+            }
+        }
+    };
+
+    traverseMenuItems(menuItems);
+    return parentKeys;
 }

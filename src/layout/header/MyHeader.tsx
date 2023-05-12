@@ -40,9 +40,16 @@ function MyHeader() {
     return (
         <Space direction={"horizontal"} style={{ display: 'flex', justifyContent: 'space-between' }}>
             <MyBreadcrumb />
-            <Dropdown menu={{ items }} placement="bottomRight">
-                <Avatar />
-            </Dropdown>
+            <Space>
+                <span>
+                    {LocalStoreUtil.getUsername()}
+                </span>
+                <Dropdown menu={{ items }} placement="bottomRight">
+                    <Avatar />
+                </Dropdown>
+
+            </Space>
+
         </Space>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
-import Dashboard from "../../pages/index/Dashboard";
+import Index from "../../pages/index/Index";
 import Account from "../../pages/user/Account";
 import Organization from "../../pages/user/Organization";
 import Role from "../../pages/system/Role";
@@ -12,8 +12,8 @@ import Data from "../../pages/data/Data";
 function MyMain() {
     return (
         <Routes>
-            <Route path="/" element={<Dashboard/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/" element={<Index/>}/>
+            <Route path="/index" element={<Index/>}/>
             <Route path="/user/account" element={<Account/>} />
             <Route path="/user/organization" element={<Organization/>} />
             <Route path="/system/role" element={<Role/>} />
