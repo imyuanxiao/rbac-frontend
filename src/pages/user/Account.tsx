@@ -1,35 +1,47 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Tag, Space, Button, Checkbox, Row, Col} from 'antd';
-import {ColumnsType} from "antd/es/table";
-import {getUserPageVO} from "../../api/api";
-import LocalStoreUtil from "../../utils/LocalStoreUtil";
-import {Role, UserPageVO} from "../../api/types";
+import {Table, Tag, Space, Button, Row, Col} from 'antd';
 import {
     FormOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
+import {ColumnsType} from "antd/es/table";
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
+import {getUserPageVO} from "../../api/api";
+import {Role, UserPageVO} from "../../api/types";
 import Auth from "../../compenents/Auth";
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
 
 function Account() {
 
-    const [isEdit, setIsEdit] = useState(true);
-    const [isBatchDelete, setIsBatchDelete] = useState(false);
+    // 数据刷新
     const [refresh, setRefresh] = useState(false);
+    // EditUser组件的可见状态
     const [editOpen, setEditOpen] = useState(false);
+    // EditUser执行编辑或新增
+    const [isEdit, setIsEdit] = useState(true);
+    // DeleteUser组件的可见状态
     const [deleteOpen, setDeleteOpen] = useState(false);
-
-    const [selectedUser, setSelectedUser] = useState<UserPageVO>({id:-1,username:'',roleIds:[]});
+    // DeleteUser是否执行批量删除
+    const [isBatchDelete, setIsBatchDelete] = useState(false);
+    // 存储单独操作的用户对象
+    const [selectedUser, setSelectedUser] = useState<UserPageVO>({id:0,username:'',roleIds:[]});
+    // 存储批量操作的用户id
     const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
 
+    /**
+     * 通过id获取角色名称
+     * @param id
+     */
     function getRoleName(id: number): string {
         const roles: Role[] = LocalStoreUtil.getAllRoles();
         const role = roles.find((role) => role.id === id);
         return role ? role.name : '';
     }
 
-    // 定义列表属性（列名、值的表现格式、操作按钮等）
+    /**
+     * 定义列表属性（列名、值的表现格式、操作按钮等）
+     */
     function generateColumns(): ColumnsType<UserPageVO> {
         return [
             {
@@ -105,12 +117,20 @@ function Account() {
             },
         ];
     }
-    // 获取列表
+
+    /**
+     * 获取列表
+     */
     const columns = generateColumns();
-    // 创建data，指定类型为UserPageVO[]
+
+    /**
+     * 用于存储列表数据的钩子函数
+     */
     const [data, setData] = useState<UserPageVO[]>([]);
 
-    // 创建分页对象，指定属性
+    /**
+     * 用于存储分页对象的钩子函数
+     */
     const [pagination, setPagination] = useState({
         current: 1, // 当前页码
         pageSize: 5, // 每页显示的记录数
@@ -119,7 +139,11 @@ function Account() {
         pageSizeOptions: ['5', '10', '15'], // 每页显示数量的选项
     });
 
-    // 通过请求接口获取数据，并更新分页对象
+    /**
+     * 通过请求接口获取数据，并更新分页对象
+     * @param current
+     * @param pageSize
+     */
     const fetchData = async (current: number, pageSize: number) => {
         try {
             const response = await getUserPageVO(current, pageSize);
@@ -137,21 +161,25 @@ function Account() {
         }
     };
 
-    // 第二个参数为空的useEffect会在组件挂载的时候调用接口
+    /**
+     * 挂载组件和refresh刷新时，重新获取列表数据
+     * @param current
+     * @param pageSize
+     */
     useEffect(() => {
-        // 获取数据，设置页码初始页码和显示数
         fetchData(pagination.current, pagination.pageSize);
     }, [refresh]);
 
-    // 更改页码或每页显示数
+    /**
+     * 更改页码或每页显示数，若更改每页显示数，需要刷新回到第1页
+     * @param current
+     * @param pageSize
+     * @param resetCurrent
+     */
     const handleChange = async (current: number, pageSize: number, resetCurrent: boolean) => {
         let newCurrentPage = resetCurrent ? 1 : current; // 如果是每页显示数变化，则重置当前页码为1
         fetchData(newCurrentPage, pageSize);
     };
-
-    const handleBatchDelete = () =>{
-
-    }
 
     return (
         <>

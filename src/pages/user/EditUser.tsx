@@ -6,6 +6,9 @@ import {Option, User, UserPageVO} from "../../api/types";
 import {addUser, updateUser} from "../../api/api";
 import {isValidUsername} from "../../utils/ValidUtil";
 
+/**
+ * 将本地存储的角色信息，转换成为多选框选项
+ */
 const options: Option[] = getRoleOptions()
 
 function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
@@ -14,12 +17,14 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
     modalOpen: boolean;
     setModalOpen: (open: boolean) => void;
     onUpdate: () => void }) {
-
-    const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
+    
+    // 保存选中的角色信息
+    const [selectedRoleIds, setSelectedRoleIds] = useState<number[]>([]);
+    // 保存input框中的内容
     const [username, setUsername] = useState<string>('');
 
     const handleRoleIdsChange = (value: any) => {
-        setSelectedRoles([].concat(...value));
+        setSelectedRoleIds([].concat(...value));
     };
 
     const handleOk = async () => {
@@ -27,7 +32,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
             if(await updateUser({
                 id: user.id,
                 username: username as string,
-                roleIds: selectedRoles as number[]
+                roleIds: selectedRoleIds as number[]
             } as User)){
                 onUpdate();
             }
@@ -38,7 +43,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
                 return;
             }
             if (await addUser(
-                {username: username as string, roleIds: selectedRoles as number[]
+                {username: username as string, roleIds: selectedRoleIds as number[]
                 })) {
                 onUpdate();
             }
@@ -47,7 +52,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
 
     useEffect(() => {
         setUsername(user.username);
-        setSelectedRoles(user.roleIds);
+        setSelectedRoleIds(user.roleIds);
     }, [user.username]);
 
     return (
@@ -62,6 +67,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
             okText="确认"
             destroyOnClose={true}
         >
+
             <p><b>Username</b></p>
 
             <Input

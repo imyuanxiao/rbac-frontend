@@ -93,7 +93,7 @@ export const getUserPageVO = async (currentPage:number, pageSize:number) => {
 };
 
 /**
- * 添加新用户
+ * 添加新用户（用户名、角色等）
  * @param user
  */
 export const addUser = async (user: any) => {
@@ -109,7 +109,7 @@ export const addUser = async (user: any) => {
 };
 
 /**
- * 更新用户信息（角色）
+ * 更新用户信息（用户名、角色等）
  * @param user
  */
 export const updateUser = async (user: any) => {
