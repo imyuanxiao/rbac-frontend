@@ -1,7 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Menu} from "antd";
-import {findTopLevelParentKeys, getFilteredMenu, RouteItem, routeItems} from "../../router/RouteConfig";
+import {
+    findTopLevelParentKeys,
+    getFilteredMenu,
+    getFilteredPath,
+    RouteItem,
+    routeItems
+} from "../../router/RouteConfig";
 import { useLocation } from 'react-router-dom';
+import LocalStoreUtil from "../../utils/LocalStoreUtil";
 
 function MyMenu() {
 
@@ -17,6 +24,9 @@ function MyMenu() {
 
     // 根据用户权限获取所在菜单
     const items : RouteItem[] = getFilteredMenu(routeItems);
+    // 获取用户有权限的路由，保存在本地
+    const paths = getFilteredPath(routeItems);
+    LocalStoreUtil.putFilteredPath(paths);
 
     useEffect(() => {
         // 根据当前路由路径判断哪个SubMenu该展开

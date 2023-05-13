@@ -35,7 +35,7 @@ function Home() {
                 navigate("/index");
                 return;
             }
-            if(!getFilteredPath(routeItems).includes(currentPath)){
+            if(!LocalStoreUtil.getFilteredPath().includes(currentPath)){
                 LocalStoreUtil.removeSavedPath();
                 navigate("/404");
                 message.error("请求路径不存在！")

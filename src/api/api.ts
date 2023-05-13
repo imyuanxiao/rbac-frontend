@@ -13,6 +13,9 @@ export const getAllRoles = async () => {
     }
 };
 
+/**
+ * 获取所有权限信息
+ */
 export const getAllPermissions = async () => {
     const url = '/api/permission/list';
     try {
@@ -24,6 +27,10 @@ export const getAllPermissions = async () => {
     }
 };
 
+/**
+ * 发送登录表单到后端，验证成功会收到token
+ * @param formData
+ */
 export const login = async (formData: any) => {
     const url = '/api/auth/login';
     try {
@@ -36,7 +43,9 @@ export const login = async (formData: any) => {
     }
 };
 
-// 发送token到后端，获取用户最新的权限，需要和用户名一起发送，以免token被其他用户使用
+/**
+ * 更新用户权限
+ */
 export const updatePermissions = async () => {
     console.log("updatePermissions")
     const url = '/api/auth/my-permission';
@@ -51,7 +60,9 @@ export const updatePermissions = async () => {
     }
 };
 
-// 发送token到后端，获取用户最新的权限
+/**
+ * 更新token
+ */
 export const updateToken = async () => {
     const url = '/api/auth/update-token';
     try {
@@ -64,6 +75,12 @@ export const updateToken = async () => {
 };
 
 /*业务相关接口*/
+
+/**
+ * 发送当前页码和每页显示数到后端，获取分页数据
+ * @param currentPage
+ * @param pageSize
+ */
 export const getUserPageVO = async (currentPage:number, pageSize:number) => {
     const url = `/api/user/page/${currentPage}&${pageSize}`;
     try {
@@ -75,3 +92,48 @@ export const getUserPageVO = async (currentPage:number, pageSize:number) => {
     }
 };
 
+
+export const addUser = async (user: any) => {
+    const url = '/api/user/add/';
+    try {
+        const response = await axios.post(url, user);
+        message.success(response.data.data);
+    } catch (error) {
+        // @ts-ignore
+        message.error(error.data)
+    }
+};
+
+/**
+ * 更新用户信息（角色）
+ * @param user
+ */
+export const updateUser = async (user: any) => {
+    console.log(user)
+    const url = '/api/user/update/';
+    try {
+        const response = await axios.put(url, user);
+        message.success(response.data.data);
+    } catch (error) {
+        // @ts-ignore
+        message.error(error.data)
+    }
+};
+
+/**
+ * 批量删除用户
+ * @param userIds
+ */
+export const deleteUser = async (userIds: number[]) => {
+    console.log(userIds)
+    const url = '/api/user/delete/';
+    try {
+        // @ts-ignore
+        const response = await axios.delete(url,  { data: userIds });
+        message.success(response.data.data);
+    } catch (error) {
+        console.log(error);
+        // @ts-ignore
+        message.error(error.data)
+    }
+};

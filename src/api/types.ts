@@ -1,5 +1,5 @@
 export interface User {
-    id: string;
+    id: number;
     username: string;
     phone: string;
     email: string;
@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface UserVO {
-    id: string;
+    id: number;
     username: string;
     phone: string;
     email: string;
@@ -16,6 +16,15 @@ export interface UserVO {
     roleIds: number[];
     permissionIds: number[];
     token: string;
+}
+
+/**
+ * 从后端接受的用户分页数据
+ */
+export interface UserPageVO {
+    id: number;
+    username: string;
+    roleIds: number[];
 }
 
 export interface Role {
@@ -33,4 +42,9 @@ export interface Permission {
 export interface Company{
     id: number,
     name: string
+}
+
+export interface Option {
+    value: string | number;
+    label: string;
 }

@@ -2,16 +2,16 @@ import LocalStore from "./LocalStore";
 import {User, UserVO} from "../api/types";
 
 
-const allRolesKey = 'allRolesKey';
-const allPermissionsKey = 'allPermissionsKey';
+const allRolesKey = 'allRoles';
+const allPermissionsKey = 'allPermissions';
 
 const tokenKey = 'jwt-token';
 const userInfoKey = 'userInfo';
-const permissionIdsKey = 'permissionIdsKey';
+const permissionIdsKey = 'permissionIds';
 const isAuthenticated = 'isAuthenticated';
 const savedPath = 'savedPath';
 
-const filteredRoutesKey = 'filteredRoutesKey';
+const filteredPathKey = 'filteredPath';
 
 export default {
 
@@ -61,6 +61,9 @@ export default {
         LocalStore.remove(userInfoKey);
         LocalStore.remove(permissionIdsKey);
         LocalStore.remove(isAuthenticated);
+        LocalStore.remove(filteredPathKey);
+        LocalStore.remove(allRolesKey);
+        LocalStore.remove(allPermissionsKey);
     },
 
     /**
@@ -105,12 +108,12 @@ export default {
         LocalStore.put(isAuthenticated, value);
     },
 
-    getFilteredRoutes() {
-        return LocalStore.get(filteredRoutesKey);
+    getFilteredPath() {
+        return LocalStore.get(filteredPathKey);
     },
 
-    // putFilteredRoutes(routeItems: RouteItem[]) {
-    //     LocalStore.put(filteredRoutesKey, routeItems);
-    // },
+    putFilteredPath(paths: string[]) {
+        LocalStore.put(filteredPathKey, paths);
+    },
 
 }

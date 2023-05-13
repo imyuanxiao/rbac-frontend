@@ -1,17 +1,6 @@
-import React, {useEffect} from 'react';
-import {getAllPermissions, getAllRoles} from "../../api/api";
-
-/**
- * 1. 首页数据展示、通知
- * 2. 从数据库加载所有角色信息、权限信息
- */
+import React from 'react';
 
 function Index() {
-
-    useEffect(() => {
-        getAllRoles();
-        getAllPermissions();
-    }, []);
 
     return (
         <div>
