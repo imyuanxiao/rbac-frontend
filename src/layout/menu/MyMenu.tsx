@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Menu} from "antd";
 import {
+    buildPathItems,
     findTopLevelParentKeys,
     getFilteredMenu,
     getFilteredPath,
@@ -25,7 +26,7 @@ function MyMenu() {
     // 根据用户权限获取所在菜单
     const items : RouteItem[] = getFilteredMenu(routeItems);
     // 获取用户有权限的路由，保存在本地
-    const paths = getFilteredPath(routeItems);
+    const paths = buildPathItems(routeItems);
     LocalStoreUtil.putFilteredPath(paths);
 
     useEffect(() => {

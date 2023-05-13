@@ -1,5 +1,6 @@
 import LocalStore from "./LocalStore";
 import {User, UserVO} from "../api/types";
+import {PathItem, routeItems} from "../router/RouteConfig";
 
 
 const allRolesKey = 'allRoles';
@@ -112,7 +113,12 @@ export default {
         return LocalStore.get(filteredPathKey);
     },
 
-    putFilteredPath(paths: string[]) {
+    putFilteredPath(paths: PathItem[]) {
+        paths.push(...paths, {
+            key: '/',
+            label: '首页',
+            redirect: '/index'
+        })
         LocalStore.put(filteredPathKey, paths);
     },
 

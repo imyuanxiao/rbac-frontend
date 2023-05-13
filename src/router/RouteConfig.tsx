@@ -32,6 +32,7 @@ export interface RouteItem {
 
 /**
  * 所有菜单配置
+ * key为硬编码路由
  */
 export const routeItems = [
     {
@@ -188,6 +189,7 @@ export const getFilteredPage = (routeItems: RouteItem[]) => (
 )
 
 
+
 /**
  * 根据用户权限，导出仅在权限范围内的路由
  * @param routeItems
@@ -208,3 +210,59 @@ export const getFilteredPath = (routeItems: RouteItem[]): string[] => {
 
     return filteredPaths;
 };
+
+
+export interface PathItem {
+    key: string,
+    label: string,
+    redirect?: string,
+    children?: PathItem[]
+}
+
+/**
+ * 提取路由和对应的名字，用于快速路由查找和面包屑生成
+ * @param routeItems
+ */
+export const buildPathItems = (routeItems: RouteItem[]): PathItem[] => {
+    return routeItems.map((item: RouteItem) => {
+        const pathItem: PathItem = {
+            key: item.key as string,
+            label: extractTextFromLabel(item.label),
+        };
+        if (item.children) {
+            const childPathItems = buildPathItems(item.children);
+            const firstChildWithoutChildren = item.children.find((child) => !child.children);
+
+            if (firstChildWithoutChildren) {
+                pathItem.redirect = firstChildWithoutChildren.key as string;
+                pathItem.children = childPathItems;
+            } else {
+                pathItem.children = childPathItems;
+            }
+        }
+
+        return pathItem;
+    });
+};
+
+
+/**
+ * 从label中提取路由信息
+ * @param label
+ */
+function extractTextFromLabel(label: any) {
+    // 如果 label 是 React 元素，将其子元素提取为文本
+    if (React.isValidElement(label)) {
+        let text = '';
+
+        // @ts-ignore
+        React.Children.forEach(label.props.children, child => {
+            if (typeof child === 'string') {
+                text += child;
+            }
+        });
+
+        return text;
+    }
+    return label;
+}

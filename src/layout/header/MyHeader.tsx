@@ -12,16 +12,25 @@ function MyHeader() {
 
     const navigate = useNavigate();
 
+    /**
+     * 跳转到个人中心
+     */
     const handleProfileClick = () => {
         navigate('/profile');
     };
 
+    /**
+     * 退出登录，清空本地存储
+     */
     const handleLogoutClick = () => {
         LocalStoreUtil.removeLoginState();
         message.info("已退出登录");
         navigate('/login');
     };
 
+    /**
+     * 下拉菜单
+     */
     const items: RouteItem[] = [
         {
             key: 'profile',
@@ -48,9 +57,7 @@ function MyHeader() {
                 <Dropdown menu={{ items }} placement="bottomRight">
                     <Avatar />
                 </Dropdown>
-
             </Space>
-
         </Space>
     );
 }
