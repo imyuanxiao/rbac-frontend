@@ -14,12 +14,14 @@ import DeleteUser from "./DeleteUser";
 
 function Account() {
 
+    const [isEdit, setIsEdit] = useState(true);
+    const [isBatchDelete, setIsBatchDelete] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     const [selectedUser, setSelectedUser] = useState<UserPageVO>({id:-1,username:'',roleIds:[]});
-    const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
+    const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
 
     function getRoleName(id: number): string {
         const roles: Role[] = LocalStoreUtil.getAllRoles();
@@ -79,6 +81,7 @@ function Account() {
                                 shape="circle"
                                 icon={<FormOutlined />}
                                 onClick={()=>{
+                                    setIsEdit(true)
                                     setSelectedUser(user)
                                     setEditOpen(true)
                                 }}
@@ -91,6 +94,7 @@ function Account() {
                                 icon={<DeleteOutlined />}
                                 danger
                                 onClick={()=>{
+                                    setIsBatchDelete(false)
                                     setSelectedUser(user)
                                     setDeleteOpen(true)
                                 }}
@@ -145,6 +149,10 @@ function Account() {
         fetchData(newCurrentPage, pageSize);
     };
 
+    const handleBatchDelete = () =>{
+
+    }
+
     return (
         <>
             <Row justify="end" gutter={15} style={{ marginBottom: 15 }}>
@@ -153,6 +161,7 @@ function Account() {
                         <Button
                             type="primary"
                             onClick={()=>{
+                                setIsEdit(false);
                                 // @ts-ignore
                                 setSelectedUser({ id: null, username: null, roleIds: [] })
                                 setEditOpen(true)}}
@@ -165,7 +174,12 @@ function Account() {
                     <Auth permissionId={1002}>
                         <Button
                             type="primary"
-                            danger={true}>
+                            danger={true}
+                            onClick={()=>{
+                                setIsBatchDelete(true);
+                                setDeleteOpen(true);
+                            }}
+                        >
                             Delete
                         </Button>
                     </Auth>
@@ -193,6 +207,7 @@ function Account() {
                 }}
             />
             <EditUser
+                isEdit={isEdit}
                 user={selectedUser}
                 modalOpen={editOpen}
                 setModalOpen={setEditOpen}
@@ -202,6 +217,8 @@ function Account() {
                 }}
             />
             <DeleteUser
+                isBatchDelete={isBatchDelete}
+                userIds={selectedUserIds}
                 user={selectedUser}
                 modalOpen={deleteOpen}
                 setModalOpen={setDeleteOpen}

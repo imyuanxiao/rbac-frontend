@@ -8,7 +8,7 @@ export const getRoleOptions = (): Option[] => {
     const roleList = LocalStoreUtil.getAllRoles();
     return roleList.map((role: Role) => ({
         label: role.name,
-        value: role.id,
+        value: '' + role.id,
     }));
 };
 

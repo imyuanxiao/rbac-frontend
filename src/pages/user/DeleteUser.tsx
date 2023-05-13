@@ -3,15 +3,22 @@ import {Modal} from 'antd';
 import {UserPageVO} from "../../api/types";
 import {deleteUser} from "../../api/api";
 
-function DeleteUser({ user, modalOpen, setModalOpen, onUpdate }: {
+function DeleteUser({ isBatchDelete, userIds, user, modalOpen, setModalOpen, onUpdate }: {
+    isBatchDelete: boolean;
+    userIds: number[]
     user: UserPageVO;
     modalOpen: boolean;
     setModalOpen: (open: boolean) => void;
     onUpdate: () => void }) {
 
-    const handleOk = () => {
-        deleteUser([user.id])
-            .then(onUpdate)
+    const deleteConfirmationText = isBatchDelete
+        ? '请确认是否批量删除用户？'
+        : `请确认是否删除用户: ${user.username}？`;
+
+    const handleOk = async () => {
+        if (await deleteUser(isBatchDelete? userIds : [user.id])) {
+            onUpdate();
+        }
     };
 
     return (
@@ -26,7 +33,7 @@ function DeleteUser({ user, modalOpen, setModalOpen, onUpdate }: {
             okText="确认"
             destroyOnClose={true}
         >
-            <div>请确认是否删除用户: <b>{user.username}</b>?</div>
+            <div>{deleteConfirmationText}</div>
             <div>注意：删除后无法恢复！</div>
         </Modal>
     );

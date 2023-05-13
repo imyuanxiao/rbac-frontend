@@ -92,15 +92,19 @@ export const getUserPageVO = async (currentPage:number, pageSize:number) => {
     }
 };
 
-
+/**
+ * 添加新用户
+ * @param user
+ */
 export const addUser = async (user: any) => {
     const url = '/api/user/add/';
     try {
         const response = await axios.post(url, user);
         message.success(response.data.data);
+        return true;
     } catch (error) {
         // @ts-ignore
-        message.error(error.data)
+        message.error(error.data);
     }
 };
 
@@ -114,6 +118,7 @@ export const updateUser = async (user: any) => {
     try {
         const response = await axios.put(url, user);
         message.success(response.data.data);
+        return true;
     } catch (error) {
         // @ts-ignore
         message.error(error.data)
@@ -131,6 +136,7 @@ export const deleteUser = async (userIds: number[]) => {
         // @ts-ignore
         const response = await axios.delete(url,  { data: userIds });
         message.success(response.data.data);
+        return true;
     } catch (error) {
         console.log(error);
         // @ts-ignore
