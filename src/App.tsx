@@ -12,14 +12,17 @@ function App() {
 
     checkTokenExpiration();
 
+    // 自定义主题
+    const customTheme = {
+        token: {
+            colorPrimary: '#041230',
+        },
+    };
+
     // 检查登录状态
     return (
       <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#041230',
-            },
-          }}
+          theme={customTheme}
       >
           <Router>
               <Routes>
