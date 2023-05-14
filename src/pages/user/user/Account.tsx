@@ -11,6 +11,7 @@ import {Role, UserPageVO} from "../../../api/types";
 import Auth from "../../../compenents/Auth";
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
+import {getRoleName} from "../../../utils/AttayUtil";
 
 function Account() {
 
@@ -28,16 +29,6 @@ function Account() {
     const [selectedUser, setSelectedUser] = useState<UserPageVO>({id:0,username:'',roleIds:[]});
     // 存储批量操作的用户id
     const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
-
-    /**
-     * 通过id获取角色名称
-     * @param id
-     */
-    function getRoleName(id: number): string {
-        const roles: Role[] = LocalStoreUtil.getAllRoles();
-        const role = roles.find((role) => role.id === id);
-        return role ? role.name : '';
-    }
 
     /**
      * 定义列表属性（列名、值的表现格式、操作按钮等）

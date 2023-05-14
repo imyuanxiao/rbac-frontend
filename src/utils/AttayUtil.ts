@@ -33,3 +33,14 @@ export function getPermissionTree(permissions: Permission[], parentId: number): 
 
     return dataNodes;
 }
+
+
+/**
+ * 通过id获取角色名称
+ * @param id
+ */
+export function getRoleName(id: number): string {
+    const roles: Role[] = LocalStoreUtil.getAllRoles();
+    const role = roles.find((role) => role.id === id);
+    return role ? role.name : '';
+}

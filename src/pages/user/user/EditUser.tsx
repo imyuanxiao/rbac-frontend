@@ -42,7 +42,6 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
      * 初始化表单数据
      */
     useEffect(() => {
-
         if (isEdit) {
             form.setFieldsValue({
                 id: user.id,

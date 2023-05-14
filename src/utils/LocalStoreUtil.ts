@@ -122,4 +122,10 @@ export default {
         LocalStore.put(filteredPathKey, paths);
     },
 
+
+    getUserInfo(){
+        return LocalStore.get(userInfoKey)
+    }
+
+
 }
