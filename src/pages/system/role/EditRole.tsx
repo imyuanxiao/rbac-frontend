@@ -74,6 +74,20 @@ function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
         return Array.from(newKeys);
     };
 
+    /**
+     * 根据用户权限，计算Tree中需要checked的key
+      * @param arr
+     */
+    function filterArray(arr: number[]): number[] {
+        const toDelete = new Set<number>();
+        for(const num of arr){
+            if(arr.includes(Math.floor(num/1000))){
+                toDelete.add(Math.floor(num/1000))
+            }
+        }
+        return arr.filter((num) => !toDelete.has(num));
+    }
+
     return (
         <Modal
             title={"编辑数据" }
@@ -116,7 +130,7 @@ function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
                         <Tree
                             checkable
                             // 逆向updateCheckedKeys的简单方式，只需要操作权限
-                            defaultCheckedKeys={role.permissionIds.filter((id) => Math.floor(id / 1000) !== 0)}
+                            defaultCheckedKeys={filterArray(role.permissionIds)}
                             onCheck={(checkedKeys)=>{
                                 const newKeys = updateCheckedKeys(checkedKeys as number[]);
                                 setCheckedKeys(newKeys)
