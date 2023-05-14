@@ -44,6 +44,7 @@ const LoginForm: React.FC = () => {
                     { required: true, message: 'Please input your username!' },
                     { min: 4, max: 20, message: 'Length should be between 4 and 20 characters!' }
                 ]}
+                initialValue="admin"
             >
                 <Input />
             </Form.Item>
@@ -55,6 +56,7 @@ const LoginForm: React.FC = () => {
                     { required: true, message: 'Please input your password!' },
                     { min: 4, max: 20, message: 'Length should be between 4 and 20 characters!' }
                 ]}
+                initialValue="admin"
             >
                 <Input.Password />
             </Form.Item>
