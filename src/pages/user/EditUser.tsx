@@ -4,8 +4,6 @@ import { getRoleOptions } from '../../utils/AttayUtil';
 import { Option, UserPageVO } from "../../api/types";
 import { addUser, updateUser } from "../../api/api";
 
-const options: Option[] = getRoleOptions();
-
 function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
     isEdit: boolean;
     user: UserPageVO;
@@ -39,10 +37,14 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
         })
     };
 
+    let options: Option[] = [];
     /**
      * 初始化表单数据
      */
     useEffect(() => {
+
+        options = getRoleOptions();
+
         if (isEdit) {
             form.setFieldsValue({
                 id: user.id,

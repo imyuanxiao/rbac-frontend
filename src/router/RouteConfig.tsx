@@ -189,7 +189,6 @@ export const getFilteredPage = (routeItems: RouteItem[]) => (
 )
 
 
-
 /**
  * 根据用户权限，导出仅在权限范围内的路由
  * @param routeItems
@@ -266,3 +265,47 @@ function extractTextFromLabel(label: any) {
     }
     return label;
 }
+
+/**
+ * 在本地存储中寻找合法的路由
+ * @param path
+ * @param items
+ */
+export const findPathByKey = (path: string, items: PathItem[]): string => {
+    for (const item of items) {
+        // 有children
+        if (item.children) {
+            const redirectKey = findPathByKey(path, item.children);
+            if (redirectKey !== '/404') {
+                return redirectKey;
+            }
+        }
+        // 无children
+        if(item.key == path){
+            return item.redirect ? item.redirect : item.key;
+        }
+    }
+    return '/404';
+};
+
+/**
+ * 在本地存储中寻找合法的pathItem
+ * @param path
+ * @param items
+ */
+export const findPathItemByPath = (path: string, items: PathItem[]): PathItem | null => {
+    for (const item of items) {
+        // 有children
+        if (item.children) {
+            const result = findPathItemByPath(path, item.children);
+            if (result !== null) {
+                 return result;
+            }
+        }
+        // 无children
+        if(item.key == path){
+            return item;
+        }
+    }
+    return null;
+};
