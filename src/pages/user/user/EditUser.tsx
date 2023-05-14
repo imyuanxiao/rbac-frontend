@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { Modal, Form, Input, Select, message } from 'antd';
-import { getRoleOptions } from '../../utils/AttayUtil';
-import { Option, UserPageVO } from "../../api/types";
-import { addUser, updateUser } from "../../api/api";
+import { getRoleOptions } from '../../../utils/AttayUtil';
+import { Option, UserPageVO } from "../../../api/types";
+import { addUser, updateUser } from "../../../api/api";
 
 function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
     isEdit: boolean;
@@ -37,13 +37,11 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
         })
     };
 
-    let options: Option[] = [];
+    let options: Option[] = getRoleOptions();
     /**
      * 初始化表单数据
      */
     useEffect(() => {
-
-        options = getRoleOptions();
 
         if (isEdit) {
             form.setFieldsValue({
@@ -75,7 +73,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
                     name="id"
                     style={{ display: 'none' }}
                     rules={[
-                        { required: isEdit, message: 'Please input your username!' },
+                        { required: isEdit},
                     ]}
                 >
                 </Form.Item>
@@ -83,7 +81,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
                     label="Username"
                     name="username"
                     rules={[
-                        { required: true, message: 'Please input your username!' },
+                        { required: true, message: 'Username is required!' },
                         { min: 4, max: 12, message: 'Length should be between 4 and 12 characters!' }
                     ]}
                 >

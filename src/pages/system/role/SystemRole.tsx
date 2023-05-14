@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Tag, Space, Button, Row, Col} from 'antd';
+import {Table, Space, Button, Row, Col, Tag, Popconfirm} from 'antd';
 import {
     FormOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
 import {ColumnsType} from "antd/es/table";
-import LocalStoreUtil from "../../utils/LocalStoreUtil";
-import {getUserPageVO} from "../../api/api";
-import {Role, UserPageVO} from "../../api/types";
-import Auth from "../../compenents/Auth";
-import EditUser from "./EditUser";
-import DeleteUser from "./DeleteUser";
+import LocalStoreUtil from "../../../utils/LocalStoreUtil";
+import {Role, RolePageVO, UserPageVO} from "../../../api/types";
+import Auth from "../../../compenents/Auth";
+import {deleteRole, getAllPermissions, getAllRoles, getRolePageVO, updateMyPermissions} from "../../../api/api";
+import EditUser from "../../user/user/EditUser";
+import EditRole from "./EditRole";
 
-function Account() {
+function SystemRole() {
 
     // 数据刷新
     const [refresh, setRefresh] = useState(false);
@@ -20,29 +20,18 @@ function Account() {
     const [editOpen, setEditOpen] = useState(false);
     // EditUser执行编辑或新增
     const [isEdit, setIsEdit] = useState(true);
-    // DeleteUser组件的可见状态
-    const [deleteOpen, setDeleteOpen] = useState(false);
-    // DeleteUser是否执行批量删除
-    const [isBatchDelete, setIsBatchDelete] = useState(false);
     // 存储单独操作的用户对象
-    const [selectedUser, setSelectedUser] = useState<UserPageVO>({id:0,username:'',roleIds:[]});
+    const [selectedRole, setSelectedRole] = useState<RolePageVO>({id:0,name:'',permissionIds:[]});
     // 存储批量操作的用户id
-    const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
-
-    /**
-     * 通过id获取角色名称
-     * @param id
-     */
-    function getRoleName(id: number): string {
-        const roles: Role[] = LocalStoreUtil.getAllRoles();
-        const role = roles.find((role) => role.id === id);
-        return role ? role.name : '';
-    }
-
+    const [selectedRoleIds, setSelectedRoleIds] = useState<number[]>([]);
+    // 等待响应数据返回期间按钮会显示loading动画
+    const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+    // 是否执行批量删除，用于区分显示loading动画
+    const [isBatchDelete, setIsBatchDelete] = useState(false);
     /**
      * 定义列表属性（列名、值的表现格式、操作按钮等）
      */
-    function generateColumns(): ColumnsType<UserPageVO> {
+    function generateColumns(): ColumnsType<RolePageVO> {
         return [
             {
                 title: 'Index',
@@ -55,62 +44,54 @@ function Account() {
                 },
             },
             {
-                title: 'Username',
-                dataIndex: 'username',
-                key: 'username',
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name',
                 align: 'center',
                 render: (text) => <>{text}</>,
-            },
-            {
-                title: 'Role',
-                dataIndex: 'roleIds',
-                key: 'roleIds',
-                align: 'center',
-                render: (roleIds: number[]) => (
-                    <>
-                        {roleIds.map((roleId) => {
-                            // 为不同角色赋予不同颜色的标签
-                            let color = (roleId === 1 || roleId === 2)
-                                ? 'geekblue' : roleId === 3 ? 'green' : 'default';
-                            return (
-                                <Tag color={color} key={roleId}>
-                                    {getRoleName(roleId)}
-                                </Tag>
-                            );
-                        })}
-                    </>
-                ),
             },
             {
                 title: 'Action',
                 key: 'action',
                 align: 'center',
-                render: (_, user) => (
+                render: (_, role) => (
                     <Space size="middle">
-                        <Auth permissionId={1003}>
+                        <Auth permissionId={3003}>
                             <Button
                                 type="primary"
                                 shape="circle"
                                 icon={<FormOutlined />}
                                 onClick={()=>{
                                     setIsEdit(true)
-                                    setSelectedUser(user)
+                                    setSelectedRole(role)
                                     setEditOpen(true)
                                 }}
                             />
                         </Auth>
-                        <Auth permissionId={1002}>
-                            <Button
-                                type="primary"
-                                shape="circle"
-                                icon={<DeleteOutlined />}
-                                danger
-                                onClick={()=>{
-                                    setIsBatchDelete(false)
-                                    setSelectedUser(user)
-                                    setDeleteOpen(true)
+                        <Auth permissionId={3002}>
+                            <Popconfirm
+                                title="Delete the Role"
+                                description="Are you sure to delete this Role?"
+                                okText="Yes"
+                                cancelText="No"
+                                onConfirm={deleteRoles}
+                                onCancel={()=>{
+                                    setSelectedRoleIds([])
                                 }}
-                            />
+                            >
+                                <Button
+                                    type="primary"
+                                    shape="circle"
+                                    loading={confirmLoading && !isBatchDelete}
+                                    icon={<DeleteOutlined />}
+                                    danger
+                                    onClick={()=>{
+                                        setSelectedRoleIds([role.id])
+                                        setIsBatchDelete(false)
+                                    }}
+                                />
+                            </Popconfirm>
+
                         </Auth>
                     </Space>
                 ),
@@ -119,14 +100,9 @@ function Account() {
     }
 
     /**
-     * 获取列表
-     */
-    const columns = generateColumns();
-
-    /**
      * 用于存储列表数据的钩子函数
      */
-    const [data, setData] = useState<UserPageVO[]>([]);
+    const [data, setData] = useState<RolePageVO[]>([]);
 
     /**
      * 用于存储分页对象的钩子函数
@@ -146,7 +122,7 @@ function Account() {
      */
     const fetchData = async (current: number, pageSize: number) => {
         try {
-            const response = await getUserPageVO(current, pageSize);
+            const response = await getRolePageVO(current, pageSize);
             // 更新列表数据
             setData(response.records);
             // 更新分页对象
@@ -170,6 +146,18 @@ function Account() {
         fetchData(pagination.current, pagination.pageSize);
     }, [refresh]);
 
+    const deleteRoles = async () => {
+        setConfirmLoading(true)
+        try {
+            await deleteRole(selectedRoleIds);
+            setRefresh(!refresh);
+        }catch (e){
+
+        }finally {
+            setConfirmLoading(false)
+        }
+    };
+
     /**
      * 更改页码或每页显示数，若更改每页显示数，需要刷新回到第1页
      * @param current
@@ -185,13 +173,13 @@ function Account() {
         <>
             <Row justify="end" gutter={15} style={{ marginBottom: 15 }}>
                 <Col>
-                    <Auth permissionId={1001}>
+                    <Auth permissionId={3001}>
                         <Button
                             type="primary"
                             onClick={()=>{
                                 setIsEdit(false);
                                 // @ts-ignore
-                                setSelectedUser({ id: null, username: null, roleIds: [] })
+                                setSelectedRole({ id: null, name: null, permissionIds: [] })
                                 setEditOpen(true)}}
                         >
                             New
@@ -199,17 +187,28 @@ function Account() {
                     </Auth>
                 </Col>
                 <Col>
-                    <Auth permissionId={1002}>
-                        <Button
-                            type="primary"
-                            danger={true}
-                            onClick={()=>{
-                                setIsBatchDelete(true);
-                                setDeleteOpen(true);
+                    <Auth permissionId={3002}>
+                        <Popconfirm
+                            title="Delete roles"
+                            description="Are you sure to delete those roles?"
+                            okText="Yes"
+                            cancelText="No"
+                            onConfirm={deleteRoles}
+                            onCancel={()=>{
+                                setSelectedRoleIds([])
                             }}
                         >
-                            Delete
-                        </Button>
+                            <Button
+                                type="primary"
+                                danger={true}
+                                loading={confirmLoading && isBatchDelete}
+                                onClick={()=>{
+                                    setIsBatchDelete(true)
+                                }}
+                            >
+                                Delete
+                            </Button>
+                        </Popconfirm>
                     </Auth>
                 </Col>
             </Row>
@@ -218,10 +217,10 @@ function Account() {
                     type: 'checkbox',
                     onChange: (selectedRowKeys) => {
                         // @ts-ignore
-                        setSelectedUserIds(selectedRowKeys);
+                        setSelectedRoleIds(selectedRowKeys);
                     }
                 }}
-                columns={columns}
+                columns={generateColumns()}
                 dataSource={data.map((item) => ({
                     ...item,
                     key: item.id,
@@ -234,29 +233,20 @@ function Account() {
                     showTotal: (total, range) => `共 ${total} 条记录`, // 显示总数据数
                 }}
             />
-            <EditUser
+            <EditRole
                 isEdit={isEdit}
-                user={selectedUser}
+                role={selectedRole}
                 modalOpen={editOpen}
                 setModalOpen={setEditOpen}
                 onUpdate={()=>{
                     setRefresh(!refresh)
                     setEditOpen(false)
+                    getAllRoles()
+                    getAllPermissions()
                 }}
             />
-            <DeleteUser
-                isBatchDelete={isBatchDelete}
-                userIds={selectedUserIds}
-                user={selectedUser}
-                modalOpen={deleteOpen}
-                setModalOpen={setDeleteOpen}
-                onUpdate={()=>{
-                    setRefresh(!refresh)
-                    setDeleteOpen(false)
-                }}/>
         </>
-
     );
 }
 
-export default Account;
+export default SystemRole;

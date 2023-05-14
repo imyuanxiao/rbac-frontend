@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Menu, message} from "antd";
+import {Menu} from "antd";
 import {
     buildPathItems,
     findTopLevelParentKeys,

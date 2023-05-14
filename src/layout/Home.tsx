@@ -7,7 +7,7 @@ import MyHeader from "./header/MyHeader";
 import MyFooter from "./footer/MyFooter";
 import TabNavigation from "./main/TabNavigation";
 import LocalStoreUtil from "../utils/LocalStoreUtil";
-import {updatePermissions} from "../api/api";
+import {updateMyPermissions} from "../api/api";
 import {findPathByKey} from "../router/RouteConfig";
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,7 +28,7 @@ function Home() {
             return;
         }
         // 每次路由切换都更新权限
-        updatePermissions();
+        updateMyPermissions();
 
         // 判断当前路由的合法性
         let currentPath = location.pathname;

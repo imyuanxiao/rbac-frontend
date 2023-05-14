@@ -15,7 +15,12 @@ function App() {
     // 自定义主题
     const customTheme = {
         token: {
-            colorPrimary: '#041230',
+            // colorPrimary: '#041230',
+            colorFillAlter: '#ececec',
+            // colorFillSecondary: '#d88727',
+            // colorBgElevated: '#d88727',
+            colorBgTextHover: '#d88727',
+
         },
     };
 

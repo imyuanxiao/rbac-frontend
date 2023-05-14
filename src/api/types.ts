@@ -27,6 +27,13 @@ export interface UserPageVO {
     roleIds: number[];
 }
 
+export interface RolePageVO {
+    id: number;
+    name: string;
+    permissionIds: number[];
+}
+
+
 export interface Role {
     id: number,
     name: string

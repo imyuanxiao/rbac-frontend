@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
-import {getAllPermissions, getAllRoles, login} from "../../api/api";
+import {getAllPermissions, getAllRoles, login, updateMyPermissions} from "../../api/api";
 import { useNavigate } from 'react-router-dom';
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
 const LoginForm: React.FC = () => {
@@ -11,6 +11,8 @@ const LoginForm: React.FC = () => {
             // 登录成功，获取最新角色和权限信息
             getAllRoles();
             getAllPermissions();
+            updateMyPermissions();
+
             // 获取保存的路径，如果没有，则使用默认路径
             const savedPath = LocalStoreUtil.getSavedPath() || '/';
             // 使用导航功能导航到保存的路径

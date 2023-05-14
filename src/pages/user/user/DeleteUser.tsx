@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal} from 'antd';
-import {UserPageVO} from "../../api/types";
-import {deleteUser} from "../../api/api";
+import {UserPageVO} from "../../../api/types";
+import {deleteUser} from "../../../api/api";
 
 function DeleteUser({ isBatchDelete, userIds, user, modalOpen, setModalOpen, onUpdate }: {
     isBatchDelete: boolean;

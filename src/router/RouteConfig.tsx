@@ -17,9 +17,9 @@ import Profile from "../pages/profile/Profile";
 import Data from "../pages/data/Data";
 import Setting from "../pages/system/Setting";
 import Permission from "../pages/system/Permission";
-import Role from "../pages/system/Role";
+import SystemRole from "../pages/system/role/SystemRole";
 import Organization from "../pages/user/Organization";
-import Account from "../pages/user/Account";
+import Account from "../pages/user/user/Account";
 
 export interface RouteItem {
     id?: number,
@@ -72,7 +72,7 @@ export const routeItems = [
                 key: '/system/role',
                 label: <Link to="/system/role">角色管理</Link>,
                 icon: <AuditOutlined />,
-                element: <Role/>,
+                element: <SystemRole/>,
             },
             {
                 id: 4,

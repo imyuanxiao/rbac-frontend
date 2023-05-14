@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import {updateToken} from "../api/api";
+import {updateMyToken} from "../api/api";
 import LocalStoreUtil from "./LocalStoreUtil";
 
 export function getTokenExpireTime(token: string): number | null {
@@ -29,7 +29,7 @@ export function checkTokenExpiration(): void {
     if (now >= expireTime - 150) {
         console.log("token会过期")
         // Token will expire within 60 seconds, update it
-        updateToken()
+        updateMyToken()
             .catch((error) => {
                 console.error('Failed to update token:', error);
         });
