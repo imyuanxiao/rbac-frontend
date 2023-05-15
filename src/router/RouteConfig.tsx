@@ -37,26 +37,26 @@ export interface RouteItem {
 export const routeItems = [
     {
         key: '/index',
-        label: <Link to="/index">route_config_index</Link>,
+        label: <Link to="/index">route_config.index</Link>,
         icon: <PieChartOutlined/>,
         element: <Index/>
     },
     {
         key: '/user',
-        label: 'route_config_user',
+        label: 'route_config.user.user',
         icon: <TeamOutlined/>,
         children: [
             {
                 id: 1,
                 key: '/user/account',
-                label: <Link to="/user/account">route_config_user_account</Link>,
+                label: <Link to="/user/account">route_config.user.account</Link>,
                 icon: <UserOutlined />,
                 element: <Account/>,
             },
             {
                 id: 2,
                 key: '/user/organization',
-                label:  <Link to="/user/organization">route_config_user_organization</Link>,
+                label:  <Link to="/user/organization">route_config.user.organization</Link>,
                 icon: <ApartmentOutlined />,
                 element:  <Organization/>,
             },
@@ -64,27 +64,27 @@ export const routeItems = [
     },
     {
         key: '/system',
-        label: 'route_config_system',
+        label: 'route_config.system.system',
         icon: <DesktopOutlined/>,
         children: [
             {
                 id: 3,
                 key: '/system/role',
-                label: <Link to="/system/role">route_config_system_role</Link>,
+                label: <Link to="/system/role">route_config.system.role</Link>,
                 icon: <AuditOutlined />,
                 element: <SystemRole/>,
             },
             {
                 id: 4,
                 key: '/system/permission',
-                label: <Link to="/system/permission">route_config_system_permission</Link>,
+                label: <Link to="/system/permission">route_config.system.permission</Link>,
                 icon: <ClusterOutlined />,
                 element: <Permission/>,
             },
             {
                 id: 5,
                 key: '/system/setting',
-                label: <Link to="/system/setting">route_config_system_setting</Link>,
+                label: <Link to="/system/setting">route_config.system.setting</Link>,
                 icon: <SettingOutlined />,
                 element: <Setting/>
             },
@@ -93,14 +93,14 @@ export const routeItems = [
     {
         id: 6,
         key: '/data',
-        label: <Link to="/data">route_config_data</Link>,
+        label: <Link to="/data">route_config.data</Link>,
         icon: <BarsOutlined />,
         element: <Data/>,
     },
     {
         id: 7,
         key: '/profile',
-        label: <Link to="/profile">route_config_profile</Link>,
+        label: <Link to="/profile">route_config.profile</Link>,
         icon: <UserOutlined/>,
         element: <Profile/>,
 
@@ -130,6 +130,8 @@ export function getFilteredMenu(items: RouteItem[]): RouteItem[] {
         }
     });
 }
+
+
 
 /**
  * 根据当前路由，找到应展开的父菜单的路由
@@ -187,6 +189,7 @@ export const getFilteredPage = (routeItems: RouteItem[]) => (
 
     })
 )
+
 
 
 /**
@@ -309,3 +312,4 @@ export const findPathItemByPath = (path: string, items: PathItem[]): PathItem | 
     }
     return null;
 };
+

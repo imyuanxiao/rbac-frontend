@@ -6,7 +6,7 @@ function MyMain() {
 
     return (
         <Routes>
-            {getFilteredPage(routeItems)}
+            {getFilteredPage([...routeItems])}
         </Routes>
     );
 }

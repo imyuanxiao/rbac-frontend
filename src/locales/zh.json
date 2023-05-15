@@ -1,31 +1,95 @@
 {
-  "login_card_welcome": "欢迎来到我的应用",
-  "login_card_login": "登录",
-  "login_card_register": "注册",
-  "login_card_submit": "提交",
-  "login_card_remember_me": "记住我",
 
-  "user_username": "用户名",
-  "user_username_rule_required": "用户名为必填项",
-  "user_username_rule_length": "用户名长度为4-20个字符",
-  "user_password": "密码",
-  "user_password_check": "确认密码",
-  "user_password_rule_required": "密码为必填项",
-  "user_password_rule_length": "密码长度为4-20个字符",
-  "user_avatar": "头像",
+  "login_card":{
+    "welcome": "欢迎来到我的应用",
+    "login": "登录",
+    "register": "注册",
+    "submit": "提交",
+    "remember_me": "记住我"
+  },
 
-  "message_logged_in": "已登录",
-  "message_unfinished": "功能未开放",
+  "user": {
+    "id": "用户ID",
+    "username": "用户名",
+    "username_rule_required": "用户名为必填项",
+    "username_rule_length": "用户名长度为4-20个字符",
+    "password": "密码",
+    "password_check": "确认密码",
+    "password_rule_required": "密码为必填项",
+    "password_rule_length": "密码长度为4-20个字符",
+    "avatar": "头像",
+    "roleIds": "角色"
+  },
 
-  "route_config_index": "首页",
-  "route_config_user": "用户管理",
-  "route_config_user_account": "账户管理",
-  "route_config_user_organization": "组织结构",
-  "route_config_system": "系统管理",
-  "route_config_system_role": "角色管理",
-  "route_config_system_permission": "权限管理",
-  "route_config_system_setting": "系统设置",
-  "route_config_data": "数据管理",
-  "route_config_profile": "个人中心"
+  "role": {
+    "id": "角色ID",
+    "name": "角色名",
+    "name_rule_required": "角色名为必填项",
+    "name_rule_length": "角色名长度为4-20个字符",
+    "permissionIds": "权限"
+  },
+
+  "message":{
+    "logged_in": "已登录",
+    "unfinished": "功能未开放",
+    "logged_out": "已退出登录",
+    "validation_error": "表单校验失败"
+  },
+
+  "route_config" : {
+    "index": "首页",
+    "user": {
+      "user": "用户管理",
+      "account": "账户管理",
+      "organization": "组织结构"
+    },
+    "system": {
+      "system": "系统管理",
+      "role": "角色管理",
+      "permission": "权限管理",
+      "setting": "系统设置"
+    },
+    "data": "数据管理",
+    "profile": "个人中心"
+  },
+
+  "user_account": {
+    "edit_user": {
+      "title_is_edit":"编辑数据",
+      "title_is_add": "新增用户"
+    },
+    "delete_user": {
+      "batch_delete": "请确认是否批量删除用户？",
+      "delete": "请确认是否删除用户: ",
+      "title": "删除用户",
+      "tips": "注意：删除后无法恢复！"
+    }
+  },
+
+  "pop":{
+    "role_delete":{
+      "title": "删除角色",
+      "title_batch": "删除角色",
+      "message": "确定删除该角色？",
+      "message_batch": "确定删除选中角色？"
+    }
+  },
+
+  "table" : {
+    "index": "序号",
+    "action": "操作"
+  },
+
+  "button": {
+    "new": "新增",
+    "delete": "删除",
+    "cancel": "取消",
+    "ok": "确认",
+    "yes": "是",
+    "no": "否"
+  },
+
+  "show_total": "共 {{count}} 条记录"
+
 
 }

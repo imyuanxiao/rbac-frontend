@@ -40,7 +40,7 @@ function MyHeader() {
      */
     const handleLogoutClick = () => {
         LocalStoreUtil.removeLoginState();
-        message.info("已退出登录");
+        message.info(t('logged_out'));
         navigate('/login');
     };
 

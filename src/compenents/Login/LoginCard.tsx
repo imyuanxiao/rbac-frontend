@@ -11,12 +11,12 @@ const LoginCard: React.FC = () => {
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: t('login_card_login'),
+            label: t('login_card.login'),
             children: <LoginForm/>,
         },
         {
             key: '2',
-            label: t('login_card_register'),
+            label: t('login_card.register'),
             children: <RegisterForm/>,
         },
     ];

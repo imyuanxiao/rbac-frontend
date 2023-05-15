@@ -42,11 +42,11 @@ const LoginForm: React.FC = () => {
             autoComplete="on"
         >
             <Form.Item
-                label={t('user_username')}
+                label={t('user.username')}
                 name="username"
                 rules={[
-                    { required: true, message: t('user_username_rule_required') as string },
-                    { min: 4, max: 20, message: t('user_username_rule_length') as string }
+                    { required: true, message: t('user.username_rule_required') as string },
+                    { min: 4, max: 20, message: t('user.username_rule_length') as string }
                 ]}
                 initialValue="admin"
             >
@@ -54,11 +54,11 @@ const LoginForm: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-                label={t('user_password')}
+                label={t('user.password')}
                 name="password"
                 rules={[
-                    { required: true, message: t('user_password_rule_required') as string },
-                    { min: 4, max: 20, message:t('user_password_rule_length') as string }
+                    { required: true, message: t('user.password_rule_required') as string },
+                    { min: 4, max: 20, message:t('user.password_rule_length') as string }
                 ]}
                 initialValue="admin"
             >
@@ -66,12 +66,12 @@ const LoginForm: React.FC = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                <Checkbox>{t('login_card_remember_me')}</Checkbox>
+                <Checkbox>{t('login_card.remember_me')}</Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                    {t('login_card_submit')}
+                    {t('login_card.submit')}
                 </Button>
             </Form.Item>
         </Form>

@@ -1,25 +1,93 @@
 {
-  "user_username": "Username",
-  "user_username_rule_required": "Username is required",
-  "user_username_rule_length": "Username should be 4-20 characters in length",
-  "user_password": "Password",
-  "user_password_check": "Confirm password",
-  "user_password_rule_required": "Password is required",
-  "user_password_rule_length": "Password should be 4-20 characters in length",
-  "user_avatar": "Avatar",
+  "login_card":{
+    "welcome": "Welcome",
+    "login": "Login",
+    "register": "Register",
+    "submit": "Submit",
+    "remember_me": "Remember me"
+  },
 
-  "message_logged_in": "Logged in",
-  "message_unfinished": "Function unavailable",
+  "user": {
+    "user_id": "User ID",
+    "username": "Username",
+    "username_rule_required": "Username is required",
+    "username_rule_length": "Username should be 4-20 characters in length",
+    "password": "Password",
+    "password_check": "Confirm password",
+    "password_rule_required": "Password is required",
+    "password_rule_length": "Password should be 4-20 characters in length",
+    "avatar": "Avatar",
+    "roleIds": "Role"
+  },
 
-  "route_config_index": "Index",
-  "route_config_user": "User",
-  "route_config_user_account": "Account",
-  "route_config_user_organization": "Organization",
-  "route_config_system": "System",
-  "route_config_system_role": "Role",
-  "route_config_system_permission": "Permission",
-  "route_config_system_setting": "Setting",
-  "route_config_data": "Data",
-  "route_config_profile": "Profile"
+  "role": {
+    "id": "Role ID",
+    "name": "Name",
+    "name_rule_required": "Role name is required",
+    "name_rule_length": "Role name should be 4-20 characters in length",
+    "permissionIds": "Permission"
+  },
+
+  "message":{
+    "logged_in": "Logged in",
+    "unfinished": "Function unavailable",
+    "logged_out": "Logged out",
+    "validation_error": "Form validation failed"
+  },
+
+  "route_config" : {
+    "index": "Index",
+    "user": {
+      "user": "User",
+      "account": "Account",
+      "organization": "Organization"
+    },
+    "system": {
+      "system": "System",
+      "role": "Role",
+      "permission": "Permission",
+      "setting": "Setting"
+    },
+    "data": "Data",
+    "profile": "Profile"
+  },
+
+  "user_account": {
+    "edit_user": {
+      "title_is_edit":"Edit",
+      "title_is_add": "New"
+    },
+    "delete_user": {
+      "batch_delete": "Please confirm whether to delete users in batches?",
+      "delete": "Please confirm whether to delete the user: ",
+      "title": "Delete User",
+      "tips": "Note: Deletion cannot be recovered!"
+    }
+  },
+
+  "pop":{
+    "role_delete":{
+      "title": "Delete Role",
+      "title_batch": "Delete Roles",
+      "message": "Are you sure to delete this Role?",
+      "message_batch": "Are you sure to delete these Roles?？"
+    }
+  },
+
+  "table" : {
+    "index": "Index",
+    "action": "Action"
+  },
+
+  "button": {
+    "new": "New",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No"
+  },
+
+  "show_total": "Total {{count}} "
 
 }

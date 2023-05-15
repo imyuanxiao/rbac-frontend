@@ -13,28 +13,12 @@ import {useTranslation} from "react-i18next";
 
 function MyMenu() {
     const { t } = useTranslation();
-
     // 获取当前所在路由
     const location = useLocation();
     let currentPath = location.pathname;
 
-    useEffect(() => {
-        // 根据当前路由路径判断哪个SubMenu该展开
-        const openKey:string[] =  findTopLevelParentKeys(items, currentPath);
-        setOpenSub(openKey);
-    }, [location.pathname])
-
-    // 当前展开的SubMenu
-    const [openSub, setOpenSub] = useState<string[]>([]);
-    const handlerSubChange = (key:any) => {
-        setOpenSub(key);
-    }
-
     // 根据用户权限获取所在菜单
-    const items : RouteItem[] = getFilteredMenu(routeItems);
-    // 获取用户有权限的路由，保存在本地
-    const paths = buildPathItems(routeItems);
-    LocalStoreUtil.putFilteredPath(paths);
+    const items : RouteItem[] = getFilteredMenu([...routeItems]);
 
     function internationalizeItems(items: RouteItem[]) {
         const traverseItems = (items: RouteItem[]) => {
@@ -57,7 +41,25 @@ function MyMenu() {
         traverseItems(items);
     }
 
+    // 国际化
     internationalizeItems(items);
+
+    useEffect(() => {
+        // 根据当前路由路径判断哪个SubMenu该展开
+        const openKey:string[] =  findTopLevelParentKeys(items, currentPath);
+        setOpenSub(openKey);
+    }, [location.pathname])
+
+    // 当前展开的SubMenu
+    const [openSub, setOpenSub] = useState<string[]>([]);
+    const handlerSubChange = (key:any) => {
+        setOpenSub(key);
+    }
+
+    // 获取用户有权限的路由，保存在本地
+    const paths = buildPathItems([...routeItems]);
+    LocalStoreUtil.putFilteredPath(paths);
+
 
     return (
         <div>

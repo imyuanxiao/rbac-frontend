@@ -5,6 +5,7 @@ import {RolePageVO} from "../../../api/types";
 import {addRole, updateRole} from "../../../api/api";
 import {DataNode} from "antd/lib/tree";
 import LocalStoreUtil from "../../../utils/LocalStoreUtil";
+import {useTranslation} from "react-i18next";
 
 function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
     isEdit: boolean;
@@ -13,6 +14,9 @@ function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
     setModalOpen: (open: boolean) => void;
     onUpdate: () => void;
 }) {
+
+    const { t } = useTranslation();
+
 
     // 用于操作表单
     const [form] = Form.useForm();
@@ -38,7 +42,7 @@ function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
                 }
             }
         ).catch((error) => {
-            message.error('Form validation failed.');
+            message.error(t('message.validation_error'));
         }).finally(() => {
             setConfirmLoading(false)
         })
@@ -103,7 +107,7 @@ function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
                 form={form}
             >
                 <Form.Item
-                    label="userId"
+                    label={t('role.id')}
                     name="id"
                     style={{ display: 'none' }}
                     rules={[
@@ -112,18 +116,18 @@ function EditRole({ isEdit, role, modalOpen, setModalOpen, onUpdate }: {
                 >
                 </Form.Item>
                 <Form.Item
-                    label="Name"
+                    label={t('role.name')}
                     name="name"
                     rules={[
-                        { required: true, message: 'Role name is required!' },
-                        { min: 4, max: 12, message: 'Length should be between 4 and 12 characters!' }
+                        { required: true, message: t('role.name_rule_required') as string },
+                        { min: 4, max: 20, message: t('role.name_rule_length') as string }
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Permission"
+                    label={t('role.permissionIds')}
                 >
 
                     <div style={{ maxHeight: '200px', overflow: 'auto' , border:'solid 1px'}}>

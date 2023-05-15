@@ -49,7 +49,7 @@ function MyBreadcrumb() {
      * 默认第一个是首页
      */
     let items: any = [{
-        title: t('route_config_index'),
+        title: t('route_config.index'),
         onClick: () => navigate('/index') // 使用 navigate 执行编程式跳转
     }];
 

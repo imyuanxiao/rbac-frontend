@@ -3,6 +3,7 @@ import { Modal, Form, Input, Select, message } from 'antd';
 import { getRoleOptions } from '../../../utils/AttayUtil';
 import { Option, UserPageVO } from "../../../api/types";
 import { addUser, updateUser } from "../../../api/api";
+import {useTranslation} from "react-i18next";
 
 function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
     isEdit: boolean;
@@ -11,6 +12,8 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
     setModalOpen: (open: boolean) => void;
     onUpdate: () => void;
 }) {
+
+    const { t } = useTranslation();
 
     // 用于操作表单
     const [form] = Form.useForm();
@@ -31,7 +34,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
                 }
             }
         ).catch((error) => {
-            message.error('Form validation failed.');
+            message.error( t('validation_error'));
         }).finally(() => {
             setConfirmLoading(false)
         })
@@ -55,11 +58,13 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
 
     return (
         <Modal
-            title={isEdit ? "编辑数据" : "新增用户"}
+            title={isEdit ? t('user_account.edit_user.title_is_edit') : t('user_account.edit_user.title_is_add')}
             open={modalOpen}
             onCancel={() => {
                 setModalOpen(false);
             }}
+            cancelText={t('button.cancel')}
+            okText={t('button.ok')}
             onOk={handleOk}
             destroyOnClose={true}
             confirmLoading={confirmLoading}
@@ -68,7 +73,7 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
                 form={form}
             >
                 <Form.Item
-                    label="userId"
+                    label={t('user.id')}
                     name="id"
                     style={{ display: 'none' }}
                     rules={[
@@ -77,18 +82,18 @@ function EditUser({ isEdit, user, modalOpen, setModalOpen, onUpdate }: {
                 >
                 </Form.Item>
                 <Form.Item
-                    label="Username"
+                    label={t('user.username')}
                     name="username"
                     rules={[
-                        { required: true, message: 'Username is required!' },
-                        { min: 4, max: 12, message: 'Length should be between 4 and 12 characters!' }
+                        { required: true, message: t('user.username_rule_required') as string },
+                        { min: 4, max: 12, message:  t('user.username_rule_length') as string }
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Role"
+                    label={t('user.roleIds')}
                     name="roleIds"
                 >
                     <Select

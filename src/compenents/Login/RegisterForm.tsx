@@ -6,7 +6,7 @@ const RegisterForm: React.FC = () => {
     const { t } = useTranslation();
 
     const onFinish = (values: any) => {
-        message.info(t('message_unfinished'))
+        message.info(t('message.unfinished'))
     };
 
     return(
@@ -20,33 +20,33 @@ const RegisterForm: React.FC = () => {
             autoComplete="off"
         >
             <Form.Item
-                label={t('user_username')}
+                label={t('user.username')}
                 name="username"
                 rules={[
-                    { required: true, message: t('user_username_rule_required') as string },
-                    { min: 4, max: 20, message: t('user_username_rule_length') as string }
+                    { required: true, message: t('user.username_rule_required') as string },
+                    { min: 4, max: 20, message: t('user.username_rule_length') as string }
                 ]}
             >
                 <Input />
             </Form.Item>
 
             <Form.Item
-                label={t('user_password')}
+                label={t('user.password')}
                 name="password"
                 rules={[
-                    { required: true, message: t('user_password_rule_required') as string },
-                    { min: 4, max: 20, message:t('user_password_rule_length') as string }
+                    { required: true, message: t('user.password_rule_required') as string },
+                    { min: 4, max: 20, message:t('user.password_rule_length') as string }
                 ]}
             >
                 <Input.Password />
             </Form.Item>
 
             <Form.Item
-                label={t('user_password_check')}
+                label={t('user.password_check')}
                 name="password_check"
                 rules={[
-                    { required: true, message: t('user_password_rule_required') as string },
-                    { min: 4, max: 20, message:t('user_password_rule_length') as string },
+                    { required: true, message: t('user.password_rule_required') as string },
+                    { min: 4, max: 20, message:t('user.password_rule_length') as string },
                 ]}
             >
                 <Input.Password />
@@ -54,7 +54,7 @@ const RegisterForm: React.FC = () => {
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                    {t('login_card_submit')}
+                    {t('login_card.submit')}
                 </Button>
             </Form.Item>
         </Form>

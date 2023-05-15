@@ -11,8 +11,11 @@ import Auth from "../../../compenents/Auth";
 import {deleteRole, getAllPermissions, getAllRoles, getRolePageVO, updateMyPermissions} from "../../../api/api";
 import EditUser from "../../user/user/EditUser";
 import EditRole from "./EditRole";
+import {useTranslation} from "react-i18next";
 
 function SystemRole() {
+
+    const { t } = useTranslation();
 
     // 数据刷新
     const [refresh, setRefresh] = useState(false);
@@ -34,7 +37,7 @@ function SystemRole() {
     function generateColumns(): ColumnsType<RolePageVO> {
         return [
             {
-                title: 'Index',
+                title: t('table.index'),
                 dataIndex: 'index',
                 key: 'index',
                 align: 'center',
@@ -44,14 +47,14 @@ function SystemRole() {
                 },
             },
             {
-                title: 'Name',
+                title: t('role.name'),
                 dataIndex: 'name',
                 key: 'name',
                 align: 'center',
                 render: (text) => <>{text}</>,
             },
             {
-                title: 'Action',
+                title: t('table.action'),
                 key: 'action',
                 align: 'center',
                 render: (_, role) => (
@@ -70,10 +73,10 @@ function SystemRole() {
                         </Auth>
                         <Auth permissionId={3002}>
                             <Popconfirm
-                                title="Delete the Role"
-                                description="Are you sure to delete this Role?"
-                                okText="Yes"
-                                cancelText="No"
+                                title={t('pop.role_delete.title')}
+                                description={t('pop.role_delete.message')}
+                                okText={t('button.yes')}
+                                cancelText={t('button.no')}
                                 onConfirm={deleteRoles}
                                 onCancel={()=>{
                                     setSelectedRoleIds([])
@@ -182,17 +185,17 @@ function SystemRole() {
                                 setSelectedRole({ id: null, name: null, permissionIds: [] })
                                 setEditOpen(true)}}
                         >
-                            New
+                            {t('button.new')}
                         </Button>
                     </Auth>
                 </Col>
                 <Col>
                     <Auth permissionId={3002}>
                         <Popconfirm
-                            title="Delete roles"
-                            description="Are you sure to delete those roles?"
-                            okText="Yes"
-                            cancelText="No"
+                            title={t('pop.role_delete.title_batch')}
+                            description={t('pop.role_delete.message_batch')}
+                            okText={t('button.yes')}
+                            cancelText={t('button.no')}
                             onConfirm={deleteRoles}
                             onCancel={()=>{
                                 setSelectedRoleIds([])
@@ -206,7 +209,7 @@ function SystemRole() {
                                     setIsBatchDelete(true)
                                 }}
                             >
-                                Delete
+                                {t('button.delete')}
                             </Button>
                         </Popconfirm>
                     </Auth>
@@ -230,7 +233,7 @@ function SystemRole() {
                     position: ['bottomCenter'], // 设置分页组件在表格底部居中显示
                     onChange: (currentPage, pageSize) => handleChange(currentPage, pageSize, false),
                     onShowSizeChange: (currentPage, pageSize) => handleChange(currentPage, pageSize, true),
-                    showTotal: (total, range) => `共 ${total} 条记录`, // 显示总数据数
+                    showTotal: (total, range) => t('show_total', { count: total, range }), // 显示总数据数
                 }}
             />
             <EditRole

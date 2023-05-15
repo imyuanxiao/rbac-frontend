@@ -5,15 +5,16 @@ import {
     DeleteOutlined
 } from '@ant-design/icons';
 import {ColumnsType} from "antd/es/table";
-import LocalStoreUtil from "../../../utils/LocalStoreUtil";
 import {getUserPageVO} from "../../../api/api";
-import {Role, UserPageVO} from "../../../api/types";
+import { UserPageVO} from "../../../api/types";
 import Auth from "../../../compenents/Auth";
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
 import {getRoleName} from "../../../utils/AttayUtil";
+import {useTranslation} from "react-i18next";
 
 function Account() {
+    const { t } = useTranslation();
 
     // 数据刷新
     const [refresh, setRefresh] = useState(false);
@@ -36,7 +37,7 @@ function Account() {
     function generateColumns(): ColumnsType<UserPageVO> {
         return [
             {
-                title: 'Index',
+                title: t('table.index'),
                 dataIndex: 'index',
                 key: 'index',
                 align: 'center',
@@ -46,14 +47,14 @@ function Account() {
                 },
             },
             {
-                title: 'Username',
+                title: t('user.username'),
                 dataIndex: 'username',
                 key: 'username',
                 align: 'center',
                 render: (text) => <>{text}</>,
             },
             {
-                title: 'Role',
+                title: t('user.roleIds'),
                 dataIndex: 'roleIds',
                 key: 'roleIds',
                 align: 'center',
@@ -73,7 +74,7 @@ function Account() {
                 ),
             },
             {
-                title: 'Action',
+                title: t('table.action'),
                 key: 'action',
                 align: 'center',
                 render: (_, user) => (
@@ -130,6 +131,8 @@ function Account() {
         pageSizeOptions: ['5', '10', '15'], // 每页显示数量的选项
     });
 
+
+
     /**
      * 通过请求接口获取数据，并更新分页对象
      * @param current
@@ -185,7 +188,7 @@ function Account() {
                                 setSelectedUser({ id: null, username: null, roleIds: [] })
                                 setEditOpen(true)}}
                         >
-                            New
+                            {t('button.new')}
                         </Button>
                     </Auth>
                 </Col>
@@ -199,7 +202,7 @@ function Account() {
                                 setDeleteOpen(true);
                             }}
                         >
-                            Delete
+                            {t('button.delete')}
                         </Button>
                     </Auth>
                 </Col>
@@ -222,7 +225,7 @@ function Account() {
                     position: ['bottomCenter'], // 设置分页组件在表格底部居中显示
                     onChange: (currentPage, pageSize) => handleChange(currentPage, pageSize, false),
                     onShowSizeChange: (currentPage, pageSize) => handleChange(currentPage, pageSize, true),
-                    showTotal: (total, range) => `共 ${total} 条记录`, // 显示总数据数
+                    showTotal: (total, range) => t('show_total', { count: total, range }), // 显示总数据数
                 }}
             />
             <EditUser

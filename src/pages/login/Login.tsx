@@ -12,7 +12,7 @@ function Login() {
     const navigate = useNavigate();
     // 如果已经登录了直接跳转到首页
     if (LocalStoreUtil.getLoginState())  {
-        console.log(t('message_logged_in'))
+        console.log(t('message.logged_in'))
         navigate('/index');
     }
     return (

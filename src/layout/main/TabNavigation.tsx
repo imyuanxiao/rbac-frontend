@@ -11,15 +11,13 @@ function TabNavigation() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [tags, setTags] = useState<PathItem[]>([{key:'/index', label:'route_config_index'}]); // 初始化标签数组，包含一个默认标签"首页"
+    const [tags, setTags] = useState<PathItem[]>([{key:'/index', label:'route_config.index'}]); // 初始化标签数组，包含一个默认标签"首页"
 
     useEffect(()=>{
         let currentPath = location.pathname;
         const result = findPathItemByPath(currentPath, LocalStoreUtil.getFilteredPath());
         if(result != null && !tags.some(tag => tag.key === result.key)){
             setTags([...tags, result]);
-            console.log("tags");
-            console.log(tags);
         }
     }, [location.pathname])
 
@@ -42,7 +40,7 @@ function TabNavigation() {
         return tags.map((tag) => (
                 <Tag
                     key={tag.key}
-                    closable={tag.label !== 'route_config_index'}
+                    closable={tag.label !== 'route_config.index'}
                     onClose={() => handleTagClose(tag)}
                     onClick={() => handleTagClick(tag)}
                     color={location.pathname === tag.key ? 'blue' : undefined}
