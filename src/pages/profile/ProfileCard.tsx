@@ -2,8 +2,12 @@ import React from 'react';
 import { Card, Tag } from 'antd';
 import {User} from "../../api/types";
 import {getRoleName} from "../../utils/AttayUtil";
+import {useTranslation} from "react-i18next";
 
 function ProfileCard({ user }: { user: User }) {
+    const { t } = useTranslation();
+
+
     return (
         <Card style={{ height: "100%", backgroundColor: "#f3f3f3", lineHeight:"2em"}}>
             <Card.Meta
@@ -16,19 +20,19 @@ function ProfileCard({ user }: { user: User }) {
                 }
             />
             <div>
-                <strong>Username: </strong>
+                <strong>{t('user.username')}: </strong>
                 {user.username}
             </div>
             <div>
-                <strong>Phone: </strong>
+                <strong>{t('user.phone')}: </strong>
                 {user.phone}
             </div>
             <div>
-                <strong>Email: </strong>
+                <strong>{t('user.email')}: </strong>
                 {user.email}
             </div>
             <div>
-                <strong>Roles: </strong>
+                <strong>{t('user.roleIds')}: </strong>
                 {user.roleIds.map((roleId) => (
                     <Tag key={roleId}>{getRoleName(roleId)}</Tag>
                 ))}

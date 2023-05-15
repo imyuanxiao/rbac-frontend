@@ -18,7 +18,9 @@
     "password_rule_required": "密码为必填项",
     "password_rule_length": "密码长度为4-20个字符",
     "avatar": "头像",
-    "roleIds": "角色"
+    "roleIds": "角色",
+    "phone": "手机号",
+    "email": "邮箱"
   },
 
   "role": {
@@ -86,10 +88,12 @@
     "cancel": "取消",
     "ok": "确认",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "update": "提交更新"
   },
 
-  "show_total": "共 {{count}} 条记录"
+  "show_total": "共 {{count}} 条记录",
+  "my_website": "个人网站"
 
 
 }

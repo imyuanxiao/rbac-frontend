@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Space, Button, Row, Col, Tag, Popconfirm} from 'antd';
+import {Table, Space, Button, Row, Col, Popconfirm} from 'antd';
 import {
     FormOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
 import {ColumnsType} from "antd/es/table";
-import LocalStoreUtil from "../../../utils/LocalStoreUtil";
-import {Role, RolePageVO, UserPageVO} from "../../../api/types";
+import { RolePageVO} from "../../../api/types";
 import Auth from "../../../compenents/Auth";
-import {deleteRole, getAllPermissions, getAllRoles, getRolePageVO, updateMyPermissions} from "../../../api/api";
-import EditUser from "../../user/user/EditUser";
+import {deleteRole, getAllPermissions, getAllRoles, getRolePageVO,} from "../../../api/api";
 import EditRole from "./EditRole";
 import {useTranslation} from "react-i18next";
 

@@ -3,6 +3,7 @@ import {User} from "../../api/types";
 import React, {useState} from "react";
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import {RcFile, UploadChangeParam} from "antd/es/upload";
+import {useTranslation} from "react-i18next";
 
 
 /**
@@ -36,6 +37,9 @@ const beforeUpload = (file: RcFile) => {
 function UserForm({ user }:{
     user:User
 }) {
+    const { t } = useTranslation();
+
+
     const [form] = Form.useForm();
     // 表单提交
     const handleSubmit = async () => {
@@ -44,9 +48,9 @@ function UserForm({ user }:{
             const values = form.getFieldsValue(); // 获取表单数据
             console.log(values);
             // 执行后续逻辑
-            message.info("此处功能未实现")
+            message.info(t('user.unfinished'))
         } catch (error) {
-            message.error('Form validation failed.');
+            message.error(t('user.validation_error'));
         }
     };
 
@@ -114,7 +118,7 @@ function UserForm({ user }:{
                 <Form.Item label="id" name="id" style={{display: "none"}}>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Avatar">
+                <Form.Item label={t('user.avatar')}>
                     <Upload
                         listType="picture-circle"
                         beforeUpload={beforeUpload}
@@ -128,18 +132,18 @@ function UserForm({ user }:{
                         <img alt="example" style={{ width: '100%' }} src={previewImage} />
                     </Modal>
                 </Form.Item>
-                <Form.Item label="Username" name="username">
+                <Form.Item label={t('user.username')} name="username">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Phone" name="phone">
+                <Form.Item label={t('user.phone')} name="phone">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Email" name="email">
+                <Form.Item label={t('user.email')} name="email">
                     <Input />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Update
+                        {t('button.update')}
                     </Button>
                 </Form.Item>
             </Form>

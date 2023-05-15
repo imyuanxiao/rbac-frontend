@@ -17,7 +17,9 @@
     "password_rule_required": "Password is required",
     "password_rule_length": "Password should be 4-20 characters in length",
     "avatar": "Avatar",
-    "roleIds": "Role"
+    "roleIds": "Role",
+    "phone": "Phone",
+    "email": "Email"
   },
 
   "role": {
@@ -85,9 +87,11 @@
     "cancel": "Cancel",
     "ok": "OK",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "update": "Update"
   },
 
-  "show_total": "Total {{count}} "
+  "show_total": "Total {{count}} ",
+  "my_website": "My Website"
 
 }
