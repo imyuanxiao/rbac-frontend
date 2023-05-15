@@ -3,7 +3,10 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import {getAllPermissions, getAllRoles, login, updateMyPermissions} from "../../api/api";
 import { useNavigate } from 'react-router-dom';
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
+import {useTranslation} from "react-i18next";
+
 const LoginForm: React.FC = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const onFinish = async (values: any) => {
@@ -26,6 +29,7 @@ const LoginForm: React.FC = () => {
         console.log('Failed:', errorInfo);
     };
 
+    // @ts-ignore
     return (
         <Form
             name="basic"
@@ -38,11 +42,11 @@ const LoginForm: React.FC = () => {
             autoComplete="on"
         >
             <Form.Item
-                label="Username"
+                label={t('user_username')}
                 name="username"
                 rules={[
-                    { required: true, message: 'Please input your username!' },
-                    { min: 4, max: 20, message: 'Length should be between 4 and 20 characters!' }
+                    { required: true, message: t('user_username_rule_required') as string },
+                    { min: 4, max: 20, message: t('user_username_rule_length') as string }
                 ]}
                 initialValue="admin"
             >
@@ -50,11 +54,11 @@ const LoginForm: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-                label="Password"
+                label={t('user_password')}
                 name="password"
                 rules={[
-                    { required: true, message: 'Please input your password!' },
-                    { min: 4, max: 20, message: 'Length should be between 4 and 20 characters!' }
+                    { required: true, message: t('user_password_rule_required') as string },
+                    { min: 4, max: 20, message:t('user_password_rule_length') as string }
                 ]}
                 initialValue="admin"
             >
@@ -62,12 +66,12 @@ const LoginForm: React.FC = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>{t('login_card_remember_me')}</Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    {t('login_card_submit')}
                 </Button>
             </Form.Item>
         </Form>

@@ -1,0 +1,12 @@
+{
+  "login_card_welcome": "Welcome",
+  "login_card_login": "Login",
+  "login_card_register": "Register",
+  "message_logged_in": "Already logged in",
+  "user_username": "Username",
+  "user_username_rule_required": "用户名为必填项",
+  "user_username_rule_length": "用户名长度必须4-20Length should be between 4 and 20 characters!",
+  "user_password": "密码",
+  "user_password_warning": "用户名",
+  "user_avatar": "头像"
+}

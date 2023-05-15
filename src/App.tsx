@@ -8,6 +8,29 @@ import Home from "./layout/Home";
 import {checkTokenExpiration} from "./utils/TokenUtil";
 import NotFound from "./pages/notFound/NotFound";
 
+// internationalizing components
+import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+import enTranslation from './locales/en.json';
+import zhTranslation from './locales/zh.json';
+
+i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+        resources: {
+            en: { translation: enTranslation },
+            zh: { translation: zhTranslation },
+        },
+        fallbackLng: 'zh', // 默认语言为中文
+        debug: true,
+        interpolation: {
+            escapeValue: false, // 不需要转义HTML标签
+        },
+    });
+
 function App() {
 
     checkTokenExpiration();

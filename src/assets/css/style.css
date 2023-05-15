@@ -1,20 +1,20 @@
-.login-page-container {
+.login_page_container {
     height: 100vh;
     background-color: #041230;
 }
 
-.login-card{
+.login_card{
     display: grid;
     justify-items: center;
 }
 
-.login-card > div{
+.login_card > div{
     display: grid;
     justify-items: center;
     font-size: 1.5em;
 }
 
-.login-card p:first-child{
+.login_card p:first-child{
     margin-top: 1em;
     font-weight: bold;
 }

@@ -1,0 +1,17 @@
+{
+  "login_card_welcome": "欢迎来到我的应用",
+  "login_card_login": "登录",
+  "login_card_register": "注册",
+  "login_card_submit": "提交",
+  "login_card_remember_me": "记住我",
+  "user_username": "用户名",
+  "user_username_rule_required": "用户名为必填项",
+  "user_username_rule_length": "用户名长度为4-20个字符",
+  "user_password": "密码",
+  "user_password_check": "确认密码",
+  "user_password_rule_required": "密码为必填项",
+  "user_password_rule_length": "密码长度为4-20个字符",
+  "user_avatar": "头像",
+  "message_logged_in": "已登录",
+  "message_unfinished": "功能未开放"
+}
