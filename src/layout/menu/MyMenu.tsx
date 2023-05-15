@@ -7,10 +7,12 @@ import {
     RouteItem,
     routeItems
 } from "../../router/RouteConfig";
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
+import {useTranslation} from "react-i18next";
 
 function MyMenu() {
+    const { t } = useTranslation();
 
     // 获取当前所在路由
     const location = useLocation();
@@ -33,6 +35,29 @@ function MyMenu() {
     // 获取用户有权限的路由，保存在本地
     const paths = buildPathItems(routeItems);
     LocalStoreUtil.putFilteredPath(paths);
+
+    function internationalizeItems(items: RouteItem[]) {
+        const traverseItems = (items: RouteItem[]) => {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+
+                // 应用国际化到 label
+                if (typeof item.label === 'string') {
+                    item.label = t(item.label);
+                } else if (React.isValidElement(item.label)) {
+                    item.label = React.cloneElement(item.label, {}, t(item.label.props.children));
+                }
+
+                // 递归处理子菜单
+                if (item.children) {
+                    traverseItems(item.children);
+                }
+            }
+        };
+        traverseItems(items);
+    }
+
+    internationalizeItems(items);
 
     return (
         <div>

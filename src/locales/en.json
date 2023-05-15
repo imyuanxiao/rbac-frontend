@@ -1,12 +1,25 @@
 {
-  "login_card_welcome": "Welcome",
-  "login_card_login": "Login",
-  "login_card_register": "Register",
-  "message_logged_in": "Already logged in",
   "user_username": "Username",
-  "user_username_rule_required": "用户名为必填项",
-  "user_username_rule_length": "用户名长度必须4-20Length should be between 4 and 20 characters!",
-  "user_password": "密码",
-  "user_password_warning": "用户名",
-  "user_avatar": "头像"
+  "user_username_rule_required": "Username is required",
+  "user_username_rule_length": "Username should be 4-20 characters in length",
+  "user_password": "Password",
+  "user_password_check": "Confirm password",
+  "user_password_rule_required": "Password is required",
+  "user_password_rule_length": "Password should be 4-20 characters in length",
+  "user_avatar": "Avatar",
+
+  "message_logged_in": "Logged in",
+  "message_unfinished": "Function unavailable",
+
+  "route_config_index": "Index",
+  "route_config_user": "User",
+  "route_config_user_account": "Account",
+  "route_config_user_organization": "Organization",
+  "route_config_system": "System",
+  "route_config_system_role": "Role",
+  "route_config_system_permission": "Permission",
+  "route_config_system_setting": "Setting",
+  "route_config_data": "Data",
+  "route_config_profile": "Profile"
+
 }

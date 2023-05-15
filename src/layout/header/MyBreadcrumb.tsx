@@ -3,8 +3,10 @@ import { Breadcrumb } from 'antd';
 import { useLocation,useNavigate } from 'react-router-dom';
 import {PathItem} from "../../router/RouteConfig";
 import LocalStoreUtil from "../../utils/LocalStoreUtil";
+import {useTranslation} from "react-i18next";
 
 function MyBreadcrumb() {
+    const { t } = useTranslation();
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -22,7 +24,7 @@ function MyBreadcrumb() {
             const pathItem = pathItems[i];
             // 将当前路径项转换为 BreadItem 对象
             const breadcrumbItem: any = {
-                title: pathItem.label,
+                title: t(pathItem.label),
                 // 去掉注释可以加上路由跳转
                 // href: pathItem.key,
                 onClick: () => navigate(pathItem.key)
@@ -47,7 +49,7 @@ function MyBreadcrumb() {
      * 默认第一个是首页
      */
     let items: any = [{
-        title: '首页',
+        title: t('route_config_index'),
         onClick: () => navigate('/index') // 使用 navigate 执行编程式跳转
     }];
 

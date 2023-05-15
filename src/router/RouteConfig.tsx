@@ -37,26 +37,26 @@ export interface RouteItem {
 export const routeItems = [
     {
         key: '/index',
-        label: <Link to="/index">首页</Link>,
+        label: <Link to="/index">route_config_index</Link>,
         icon: <PieChartOutlined/>,
         element: <Index/>
     },
     {
         key: '/user',
-        label: '用户管理',
+        label: 'route_config_user',
         icon: <TeamOutlined/>,
         children: [
             {
                 id: 1,
                 key: '/user/account',
-                label: <Link to="/user/account">账户管理</Link>,
+                label: <Link to="/user/account">route_config_user_account</Link>,
                 icon: <UserOutlined />,
                 element: <Account/>,
             },
             {
                 id: 2,
                 key: '/user/organization',
-                label:  <Link to="/user/organization">组织结构</Link>,
+                label:  <Link to="/user/organization">route_config_user_organization</Link>,
                 icon: <ApartmentOutlined />,
                 element:  <Organization/>,
             },
@@ -64,27 +64,27 @@ export const routeItems = [
     },
     {
         key: '/system',
-        label: '系统管理',
+        label: 'route_config_system',
         icon: <DesktopOutlined/>,
         children: [
             {
                 id: 3,
                 key: '/system/role',
-                label: <Link to="/system/role">角色管理</Link>,
+                label: <Link to="/system/role">route_config_system_role</Link>,
                 icon: <AuditOutlined />,
                 element: <SystemRole/>,
             },
             {
                 id: 4,
                 key: '/system/permission',
-                label: <Link to="/system/permission">权限管理</Link>,
+                label: <Link to="/system/permission">route_config_system_permission</Link>,
                 icon: <ClusterOutlined />,
                 element: <Permission/>,
             },
             {
                 id: 5,
                 key: '/system/setting',
-                label: <Link to="/system/setting">系统设置</Link>,
+                label: <Link to="/system/setting">route_config_system_setting</Link>,
                 icon: <SettingOutlined />,
                 element: <Setting/>
             },
@@ -93,14 +93,14 @@ export const routeItems = [
     {
         id: 6,
         key: '/data',
-        label: <Link to="/data">数据管理</Link>,
+        label: <Link to="/data">route_config_data</Link>,
         icon: <BarsOutlined />,
         element: <Data/>,
     },
     {
         id: 7,
         key: '/profile',
-        label: <Link to="/profile">个人中心</Link>,
+        label: <Link to="/profile">route_config_profile</Link>,
         icon: <UserOutlined/>,
         element: <Profile/>,
 
